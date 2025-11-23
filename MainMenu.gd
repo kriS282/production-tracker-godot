@@ -36,7 +36,7 @@ func _on_box_folding_pressed():
 	get_tree().change_scene_to_file("res://BoxFolding.tscn")
 
 func _on_wrapping_pressed():
-	get_tree().change_scene_to_file("res://WrappingTracker.tscn")
+	get_tree().change_scene_to_file("res://WrappingTrackerNew.tscn")
 
 func _on_orders_pressed():
 	get_tree().change_scene_to_file("res://OrdersManager.tscn")

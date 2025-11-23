@@ -260,3 +260,6 @@ func populate_from_wrapping_session(product: String, supplier: String, batch: St
 	product_input.text = product
 	supplier_input.text = supplier
 	batch_input.text = batch
+
+func populate_form(product: String, supplier: String, batch: String):
+	populate_from_wrapping_session(product, supplier, batch)
