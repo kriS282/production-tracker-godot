@@ -48,18 +48,40 @@ func create_order_panel(order: Dictionary) -> PanelContainer:
 	panel.add_child(vbox)
 
 	var title = Label.new()
-	title.text = "%s - %s" % [order.product, order.quantity]
-	title.add_theme_font_size_override("font_size", 24)
+	var customer_name = order.get("customer_name", "Unknown")
+	title.text = "Order #%d - %s" % [order.id, customer_name]
+	title.add_theme_font_size_override("font_size", 28)
 	vbox.add_child(title)
 
 	var delivery = Label.new()
 	delivery.text = "Delivery: %s | Status: %s" % [order.delivery_date, order.status.capitalize()]
+	delivery.add_theme_font_size_override("font_size", 20)
 	vbox.add_child(delivery)
 
-	if order.has("supplier") and not order.supplier.is_empty():
-		var supplier = Label.new()
-		supplier.text = "Supplier: %s" % order.supplier
-		vbox.add_child(supplier)
+	if order.has("harvest_date"):
+		var harvest = Label.new()
+		harvest.text = "Harvest: %s | Batch: %s" % [order.harvest_date, order.get("batch_code", "N/A")]
+		harvest.add_theme_font_size_override("font_size", 18)
+		vbox.add_child(harvest)
+
+	# Display products
+	if order.has("products") and not order.products.is_empty():
+		var products_label = Label.new()
+		products_label.text = "Products:"
+		products_label.add_theme_font_size_override("font_size", 20)
+		vbox.add_child(products_label)
+
+		for prod in order.products:
+			var prod_label = Label.new()
+			prod_label.text = "  • %s - %s" % [prod.product_name, prod.quantity]
+			prod_label.add_theme_font_size_override("font_size", 18)
+			vbox.add_child(prod_label)
+	elif order.has("product"):
+		# Legacy single-product orders
+		var prod_label = Label.new()
+		prod_label.text = "Product: %s - %s" % [order.product, order.get("quantity", "N/A")]
+		prod_label.add_theme_font_size_override("font_size", 18)
+		vbox.add_child(prod_label)
 
 	return panel
 
@@ -83,4 +105,9 @@ func create_order_from_popup(order_data: Dictionary):
 	order_data["created_by"] = current_user.id
 	DataStore.create_order(order_data)
 	load_orders()
-	show_notification("Order created: %s" % order_data.product)
+	var product_count = order_data.products.size() if order_data.has("products") else 1
+	show_notification("Order created: %s (%d product%s)" % [
+		order_data.customer_name,
+		product_count,
+		"s" if product_count != 1 else ""
+	])

@@ -1,39 +1,35 @@
 extends Window
 
-var products = [
-	"433g Cups",
-	"300g Cups",
-	"150g Buttons",
-	"250g Flats",
-	"150g Sliced"
-]
+# Popup for creating new orders with multiple products
 
-var suppliers = ["RM", "McKenna", "Other"]
+var selected_products = []  # Array of {product_id, product_name, quantity}
 
-@onready var product_dropdown = %ProductDropdown
-@onready var quantity_input = %QuantityInput
-@onready var customer_input = %CustomerInput
+@onready var customer_dropdown = %CustomerDropdown
 @onready var delivery_input = %DeliveryInput
 @onready var harvest_input = %HarvestInput
-@onready var supplier_dropdown = %SupplierDropdown
 @onready var batch_input = %BatchInput
+@onready var products_list = %ProductsList
 
 func _ready():
-	# Populate dropdowns
-	for product in products:
-		product_dropdown.add_item(product)
-
-	for supplier in suppliers:
-		supplier_dropdown.add_item(supplier)
+	populate_customer_dropdown()
 
 	# Set defaults
-	customer_input.text = "Lidl RDC Mullingar"
 	delivery_input.text = get_tomorrow_date()
 	harvest_input.text = Time.get_date_string_from_system()
 	batch_input.text = generate_batch_code()
 
+	%AddProductBtn.pressed.connect(_on_add_product_pressed)
 	%CreateBtn.pressed.connect(_on_create_pressed)
 	%CancelBtn.pressed.connect(_on_cancel_pressed)
+
+func populate_customer_dropdown():
+	customer_dropdown.clear()
+	var customers = DataStore.get_all_customers()
+	for customer in customers:
+		customer_dropdown.add_item(customer.name, customer.id)
+
+	if customer_dropdown.item_count > 0:
+		customer_dropdown.selected = 0
 
 func get_tomorrow_date() -> String:
 	var time = Time.get_unix_time_from_system() + 86400  # +1 day
@@ -47,19 +43,108 @@ func generate_batch_code() -> String:
 	var dispatch_weekday = (weekday % 7) + 1
 	return "L%02d%02d" % [week, dispatch_weekday]
 
-func _on_create_pressed():
-	if product_dropdown.selected < 0 or quantity_input.text.is_empty():
-		show_error("Please select product and enter quantity")
+func _on_add_product_pressed():
+	if customer_dropdown.selected < 0:
+		show_error("Please select a customer first")
 		return
 
+	var customer_id = customer_dropdown.get_item_id(customer_dropdown.selected)
+	%ProductSelectPopup.show_for_customer(customer_id)
+
+func add_product_to_order(product_id: int, product_name: String, quantity: String):
+	# Check if product already added
+	for i in range(selected_products.size()):
+		if selected_products[i].product_id == product_id:
+			selected_products[i].quantity = quantity
+			update_products_list()
+			return
+
+	# Add new product
+	selected_products.append({
+		"product_id": product_id,
+		"product_name": product_name,
+		"quantity": quantity
+	})
+	update_products_list()
+
+func update_products_list():
+	for child in products_list.get_children():
+		child.queue_free()
+
+	if selected_products.is_empty():
+		var label = Label.new()
+		label.text = "No products added yet. Click 'Add Product' to begin."
+		label.add_theme_font_size_override("font_size", 20)
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		products_list.add_child(label)
+	else:
+		for prod_data in selected_products:
+			var panel = create_product_entry(prod_data)
+			products_list.add_child(panel)
+
+func create_product_entry(prod_data: Dictionary) -> PanelContainer:
+	var panel = PanelContainer.new()
+	var hbox = HBoxContainer.new()
+	panel.add_child(hbox)
+
+	var vbox = VBoxContainer.new()
+	vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hbox.add_child(vbox)
+
+	var name_label = Label.new()
+	name_label.text = prod_data.product_name
+	name_label.add_theme_font_size_override("font_size", 24)
+	vbox.add_child(name_label)
+
+	var qty_label = Label.new()
+	qty_label.text = "Quantity: %s" % prod_data.quantity
+	qty_label.add_theme_font_size_override("font_size", 20)
+	vbox.add_child(qty_label)
+
+	# Remove button
+	var remove_btn = Button.new()
+	remove_btn.text = "Remove"
+	remove_btn.custom_minimum_size = Vector2(120, 80)
+	remove_btn.add_theme_font_size_override("font_size", 20)
+	remove_btn.pressed.connect(func(): remove_product(prod_data.product_id))
+	hbox.add_child(remove_btn)
+
+	return panel
+
+func remove_product(product_id: int):
+	for i in range(selected_products.size()):
+		if selected_products[i].product_id == product_id:
+			selected_products.remove_at(i)
+			break
+	update_products_list()
+
+func _on_create_pressed():
+	if customer_dropdown.selected < 0:
+		show_error("Please select a customer")
+		return
+
+	if selected_products.is_empty():
+		show_error("Please add at least one product")
+		return
+
+	if delivery_input.text.is_empty():
+		show_error("Please enter delivery date")
+		return
+
+	if harvest_input.text.is_empty():
+		show_error("Please enter harvest date")
+		return
+
+	var customer_id = customer_dropdown.get_item_id(customer_dropdown.selected)
+	var customer_name = customer_dropdown.get_item_text(customer_dropdown.selected)
+
 	var order_data = {
-		"product": products[product_dropdown.selected],
-		"quantity": quantity_input.text,
-		"customer": customer_input.text,
+		"customer_id": customer_id,
+		"customer_name": customer_name,
 		"delivery_date": delivery_input.text,
 		"harvest_date": harvest_input.text,
-		"supplier": suppliers[supplier_dropdown.selected] if supplier_dropdown.selected >= 0 else "",
-		"batch_code": batch_input.text
+		"batch_code": batch_input.text,
+		"products": selected_products.duplicate(true)
 	}
 
 	get_parent().create_order_from_popup(order_data)
@@ -70,12 +155,15 @@ func _on_cancel_pressed():
 	hide()
 
 func reset_form():
-	product_dropdown.selected = -1
-	quantity_input.text = ""
-	customer_input.text = "Lidl RDC Mullingar"
+	selected_products.clear()
+	update_products_list()
+
+	populate_customer_dropdown()
 	delivery_input.text = get_tomorrow_date()
 	harvest_input.text = Time.get_date_string_from_system()
 	batch_input.text = generate_batch_code()
+
+	%ErrorLabel.hide()
 
 func show_error(message: String):
 	%ErrorLabel.text = message
