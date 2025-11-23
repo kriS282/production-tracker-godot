@@ -1,6 +1,6 @@
 extends Control
 
-# Simplified wrapping tracker focusing on RM415 core data
+# Simplified wrapping tracker focusing on RM415 core data with integrated QC
 
 var current_user = {}
 var current_session_id = -1
@@ -14,6 +14,11 @@ var harvest_date = ""
 var delivery_date = ""
 var batch_code = ""
 var crates_wrapped = 0
+
+# Quality Control data
+var session_defects = []
+var bad_product_count = 0
+var bad_wrap_count = 0
 
 @onready var product_label = %ProductLabel
 @onready var supplier_label = %SupplierLabel
@@ -40,7 +45,9 @@ func connect_buttons():
 	%ManualEntryBtn.pressed.connect(_on_manual_entry_pressed)
 	%IncrementCratesBtn.pressed.connect(_on_increment_crates)
 	%DecrementCratesBtn.pressed.connect(_on_decrement_crates)
-	%QualityControlBtn.pressed.connect(_on_quality_control_pressed)
+	%AddBadProductBtn.pressed.connect(_on_add_bad_product_pressed)
+	%AddBadWrapBtn.pressed.connect(_on_add_bad_wrap_pressed)
+	%AddCustomReasonBtn.pressed.connect(_on_add_custom_reason_pressed)
 	%EndSessionBtn.pressed.connect(_on_end_session_pressed)
 	%GenerateRM415Btn.pressed.connect(_on_generate_rm415_pressed)
 
@@ -61,11 +68,17 @@ func update_ui():
 	batch_label.text = "Batch: %s" % (batch_code if not batch_code.is_empty() else "Not set")
 	crates_label.text = "Crates Wrapped: %d" % crates_wrapped
 
+	# Update QC counters
+	%BadProductCountLabel.text = "Bad Product: %d" % bad_product_count
+	%BadWrapCountLabel.text = "Bad Wrap: %d" % bad_wrap_count
+
 	# Enable/disable buttons based on state
 	var session_active = current_session_id >= 0
 	%IncrementCratesBtn.disabled = not session_active
 	%DecrementCratesBtn.disabled = not session_active or crates_wrapped <= 0
-	%QualityControlBtn.disabled = not session_active
+	%AddBadProductBtn.disabled = not session_active
+	%AddBadWrapBtn.disabled = not session_active
+	%AddCustomReasonBtn.disabled = not session_active
 	%EndSessionBtn.disabled = not session_active
 	%GenerateRM415Btn.disabled = not session_active
 
@@ -134,9 +147,47 @@ func _on_decrement_crates():
 		crates_wrapped -= 1
 		update_ui()
 
-func _on_quality_control_pressed():
-	# Save current session id for quality control
-	get_tree().change_scene_to_file("res://QualityControl.tscn")
+func _on_add_bad_product_pressed():
+	var reasons = DataStore.get_defect_reasons("bad_product")
+	%BadProductPopup.set_reasons(reasons)
+	%BadProductPopup.popup_centered()
+
+func _on_add_bad_wrap_pressed():
+	var reasons = DataStore.get_defect_reasons("bad_wrap")
+	%BadWrapPopup.set_reasons(reasons)
+	%BadWrapPopup.popup_centered()
+
+func _on_add_custom_reason_pressed():
+	%CustomReasonPopup.popup_centered()
+
+func add_defect(defect_type: String, reason: String, quantity: int, notes: String = ""):
+	if current_session_id < 0:
+		return
+
+	var defect_data = {
+		"session_id": current_session_id,
+		"defect_type": defect_type,
+		"defect_reason": reason,
+		"quantity": quantity,
+		"notes": notes,
+		"user_id": current_user.id
+	}
+
+	DataStore.add_defect(defect_data)
+	session_defects.append(defect_data)
+
+	# Update counters
+	if defect_type == "bad_product":
+		bad_product_count += quantity
+	elif defect_type == "bad_wrap":
+		bad_wrap_count += quantity
+
+	update_ui()
+	show_notification("Defect recorded: %s - %s (×%d)" % [defect_type.replace("_", " ").capitalize(), reason, quantity])
+
+func add_custom_reason(defect_type: String, reason: String):
+	DataStore.add_defect_reason(defect_type, reason)
+	show_notification("Custom reason added: %s" % reason)
 
 func _on_end_session_pressed():
 	if current_session_id >= 0:
@@ -166,6 +217,9 @@ func reset_session():
 	delivery_date = ""
 	batch_code = ""
 	crates_wrapped = 0
+	session_defects.clear()
+	bad_product_count = 0
+	bad_wrap_count = 0
 	update_ui()
 	load_pending_orders()
 
