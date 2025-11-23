@@ -52,6 +52,18 @@ custom_minimum_size = Vector2(0, 80)
 theme_override_font_sizes/font_size = 28
 placeholder_text = "Phone, email, etc."
 
+[node name="PNLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "PN Number:"
+
+[node name="PNInput" type="LineEdit" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 80)
+theme_override_font_sizes/font_size = 28
+placeholder_text = "e.g., 1381, 509"
+
 [node name="NotesLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24

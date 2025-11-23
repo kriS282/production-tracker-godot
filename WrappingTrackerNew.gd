@@ -160,7 +160,7 @@ func _on_add_bad_wrap_pressed():
 func _on_add_custom_reason_pressed():
 	%CustomReasonPopup.popup_centered()
 
-func add_defect(defect_type: String, reason: String, quantity: int, notes: String = ""):
+func add_defect(defect_type: String, reason: String, defect_quantity: int, notes: String = ""):
 	if current_session_id < 0:
 		return
 
@@ -168,7 +168,7 @@ func add_defect(defect_type: String, reason: String, quantity: int, notes: Strin
 		"session_id": current_session_id,
 		"defect_type": defect_type,
 		"defect_reason": reason,
-		"quantity": quantity,
+		"quantity": defect_quantity,
 		"notes": notes,
 		"user_id": current_user.id
 	}
@@ -178,12 +178,12 @@ func add_defect(defect_type: String, reason: String, quantity: int, notes: Strin
 
 	# Update counters
 	if defect_type == "bad_product":
-		bad_product_count += quantity
+		bad_product_count += defect_quantity
 	elif defect_type == "bad_wrap":
-		bad_wrap_count += quantity
+		bad_wrap_count += defect_quantity
 
 	update_ui()
-	show_notification("Defect recorded: %s - %s (×%d)" % [defect_type.replace("_", " ").capitalize(), reason, quantity])
+	show_notification("Defect recorded: %s - %s (×%d)" % [defect_type.replace("_", " ").capitalize(), reason, defect_quantity])
 
 func add_custom_reason(defect_type: String, reason: String):
 	DataStore.add_defect_reason(defect_type, reason)

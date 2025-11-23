@@ -37,8 +37,7 @@ func populate_product(product: Dictionary):
 	%PunnetInput.text = product.punnet
 	%BoxesPerCrateInput.text = str(product.boxes_per_crate)
 	%PunnetsPerBoxInput.text = str(product.punnets_per_box)
-	%BarcodeInput.text = product.barcode
-	%PNInput.text = product.pn
+	%BarcodeInput.text = product.get("barcode", "")
 
 	# Set customer dropdown
 	for i in range(%CustomerDropdown.item_count):
@@ -70,7 +69,6 @@ func clear_form():
 	%BoxesPerCrateInput.text = "12"
 	%PunnetsPerBoxInput.text = "1"
 	%BarcodeInput.text = ""
-	%PNInput.text = ""
 
 	if %CustomerDropdown.item_count > 0:
 		%CustomerDropdown.selected = 0
@@ -87,15 +85,14 @@ func _on_cancel_pressed():
 	hide()
 
 func _on_save_pressed():
-	var name = %NameInput.text.strip_edges()
+	var product_name = %NameInput.text.strip_edges()
 	var target_weight = %TargetWeightInput.text.strip_edges()
 	var punnet = %PunnetInput.text.strip_edges()
 	var boxes_per_crate_text = %BoxesPerCrateInput.text.strip_edges()
 	var punnets_per_box_text = %PunnetsPerBoxInput.text.strip_edges()
 	var barcode = %BarcodeInput.text.strip_edges()
-	var pn = %PNInput.text.strip_edges()
 
-	if name == "":
+	if product_name == "":
 		show_error("Product name is required")
 		return
 
@@ -130,7 +127,7 @@ func _on_save_pressed():
 	var packaging_type = packaging_types[%PackagingTypeDropdown.selected]
 
 	var product_data = {
-		"name": name,
+		"name": product_name,
 		"customer_id": customer_id,
 		"product_type": product_type,
 		"target_weight": target_weight,
@@ -138,8 +135,7 @@ func _on_save_pressed():
 		"packaging_type": packaging_type,
 		"boxes_per_crate": boxes_per_crate,
 		"punnets_per_box": punnets_per_box,
-		"barcode": barcode,
-		"pn": pn
+		"barcode": barcode
 	}
 
 	if editing_product:

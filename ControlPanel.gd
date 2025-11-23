@@ -143,7 +143,7 @@ func create_product_panel(product: Dictionary) -> PanelContainer:
 
 	var packaging = product.get("packaging_type", "crates")
 	var details_label = Label.new()
-	details_label.text = "Type: %s | Weight: %s | Packaging: %s | Boxes/Crate: %d" % [
+	details_label.text = "Type: %s | Weight: %s | Packaging: %s | Punnets/Crate: %d" % [
 		product.product_type,
 		product.target_weight,
 		packaging.capitalize(),
@@ -206,6 +206,13 @@ func create_supplier_panel(supplier: Dictionary) -> PanelContainer:
 	name_label.text = supplier.name
 	name_label.add_theme_font_size_override("font_size", 28)
 	vbox.add_child(name_label)
+
+	var pn = supplier.get("pn", "")
+	if pn != "":
+		var pn_label = Label.new()
+		pn_label.text = "PN: %s" % pn
+		pn_label.add_theme_font_size_override("font_size", 22)
+		vbox.add_child(pn_label)
 
 	if supplier.contact != "":
 		var contact_label = Label.new()

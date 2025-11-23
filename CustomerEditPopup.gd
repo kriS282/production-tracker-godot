@@ -31,12 +31,12 @@ func _on_cancel_pressed():
 	hide()
 
 func _on_save_pressed():
-	var name = %NameInput.text.strip_edges()
+	var customer_name = %NameInput.text.strip_edges()
 	var full_name = %FullNameInput.text.strip_edges()
 	var contact = %ContactInput.text.strip_edges()
 	var notes = %NotesInput.text.strip_edges()
 
-	if name == "":
+	if customer_name == "":
 		show_error("Customer name is required")
 		return
 
@@ -47,7 +47,7 @@ func _on_save_pressed():
 	if editing_customer:
 		# Update existing
 		var updates = {
-			"name": name,
+			"name": customer_name,
 			"full_name": full_name,
 			"contact": contact,
 			"notes": notes
@@ -55,7 +55,7 @@ func _on_save_pressed():
 		DataStore.update_customer(editing_customer.id, updates)
 	else:
 		# Create new
-		DataStore.create_customer(name, full_name, contact, notes)
+		DataStore.create_customer(customer_name, full_name, contact, notes)
 
 	hide()
 	get_parent().load_customers()

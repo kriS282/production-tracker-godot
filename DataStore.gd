@@ -280,11 +280,11 @@ func create_default_customers():
 	data.customers = default_customers
 	save_data()
 
-func create_customer(name: String, full_name: String, contact: String = "", notes: String = "") -> int:
+func create_customer(customer_name: String, full_name: String, contact: String = "", notes: String = "") -> int:
 	var customer_id = data.customers.size() + 1
 	var customer = {
 		"id": customer_id,
-		"name": name,
+		"name": customer_name,
 		"full_name": full_name,
 		"contact": contact,
 		"notes": notes
@@ -469,20 +469,21 @@ func create_default_suppliers():
 		return
 
 	var default_suppliers = [
-		{"id": 1, "name": "RM", "contact": "", "notes": ""},
-		{"id": 2, "name": "McKenna", "contact": "", "notes": ""},
-		{"id": 3, "name": "Reilly Growing", "contact": "", "notes": ""}
+		{"id": 1, "name": "RM", "contact": "", "pn": "", "notes": ""},
+		{"id": 2, "name": "McKenna", "contact": "", "pn": "1381", "notes": ""},
+		{"id": 3, "name": "Reilly Mushrooms", "contact": "", "pn": "509", "notes": ""}
 	]
 
 	data.suppliers = default_suppliers
 	save_data()
 
-func create_supplier(name: String, contact: String = "", notes: String = "") -> int:
+func create_supplier(supplier_name: String, contact: String = "", pn: String = "", notes: String = "") -> int:
 	var supplier_id = data.suppliers.size() + 1
 	var supplier = {
 		"id": supplier_id,
-		"name": name,
+		"name": supplier_name,
 		"contact": contact,
+		"pn": pn,
 		"notes": notes
 	}
 	data.suppliers.append(supplier)

@@ -35,13 +35,23 @@ func create_order_button(order: Dictionary) -> Button:
 	btn.custom_minimum_size = Vector2(0, 100)
 	btn.add_theme_font_size_override("font_size", 24)
 
-	var text = "%s - %s\n" % [order.product, order.quantity]
-	text += "Delivery: %s | Supplier: %s" % [
-		order.delivery_date,
-		order.get("supplier", "N/A")
-	]
-	btn.text = text
+	var text = ""
 
+	# Handle multi-product orders
+	if order.has("products") and not order.products.is_empty():
+		text = "%s - %d product(s)\n" % [order.customer_name, order.products.size()]
+		text += "Delivery: %s" % order.delivery_date
+	# Handle legacy single-product orders
+	elif order.has("product"):
+		text = "%s - %s\n" % [order.product, order.quantity]
+		text += "Delivery: %s | Supplier: %s" % [
+			order.delivery_date,
+			order.get("supplier", "N/A")
+		]
+	else:
+		text = "Order #%d\nDelivery: %s" % [order.id, order.delivery_date]
+
+	btn.text = text
 	btn.pressed.connect(func(): select_order(order))
 
 	return btn
