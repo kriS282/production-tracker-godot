@@ -141,10 +141,12 @@ func create_product_panel(product: Dictionary) -> PanelContainer:
 	customer_label.add_theme_font_size_override("font_size", 20)
 	vbox.add_child(customer_label)
 
+	var packaging = product.get("packaging_type", "crates")
 	var details_label = Label.new()
-	details_label.text = "Type: %s | Weight: %s | Boxes/Crate: %d" % [
+	details_label.text = "Type: %s | Weight: %s | Packaging: %s | Boxes/Crate: %d" % [
 		product.product_type,
 		product.target_weight,
+		packaging.capitalize(),
 		product.boxes_per_crate
 	]
 	details_label.add_theme_font_size_override("font_size", 18)

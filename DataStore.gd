@@ -50,7 +50,11 @@ func load_data():
 			var json = JSON.new()
 			var parse_result = json.parse(json_string)
 			if parse_result == OK:
-				data = json.get_data()
+				var loaded_data = json.get_data()
+				# Merge loaded data with default structure to add any new keys
+				for key in data.keys():
+					if loaded_data.has(key):
+						data[key] = loaded_data[key]
 			file.close()
 	save_data()  # Create file if it doesn't exist
 
@@ -329,6 +333,7 @@ func create_default_products():
 			"product_type": "cups",
 			"target_weight": "433g",
 			"punnet": "Standard punnet",
+			"packaging_type": "crates",
 			"boxes_per_crate": 12,
 			"punnets_per_box": 1,
 			"barcode": "",
@@ -341,6 +346,7 @@ func create_default_products():
 			"product_type": "cups",
 			"target_weight": "300g",
 			"punnet": "Standard punnet",
+			"packaging_type": "crates",
 			"boxes_per_crate": 16,
 			"punnets_per_box": 1,
 			"barcode": "",
@@ -353,6 +359,7 @@ func create_default_products():
 			"product_type": "buttons",
 			"target_weight": "150g",
 			"punnet": "Standard punnet",
+			"packaging_type": "crates",
 			"boxes_per_crate": 16,
 			"punnets_per_box": 1,
 			"barcode": "",
@@ -365,6 +372,7 @@ func create_default_products():
 			"product_type": "flats",
 			"target_weight": "250g",
 			"punnet": "Standard punnet",
+			"packaging_type": "crates",
 			"boxes_per_crate": 6,
 			"punnets_per_box": 1,
 			"barcode": "",
@@ -377,19 +385,21 @@ func create_default_products():
 			"product_type": "sliced",
 			"target_weight": "150g",
 			"punnet": "Standard punnet",
+			"packaging_type": "crates",
 			"boxes_per_crate": 8,
 			"punnets_per_box": 1,
 			"barcode": "",
 			"pn": ""
 		},
-		# Dublin products
+		# Dublin products - chips (stacked trays)
 		{
 			"id": 6,
 			"name": "2.27kg/5lb Cups",
 			"customer_id": 2,
 			"product_type": "cups",
 			"target_weight": "2.27kg",
-			"punnet": "Large punnet",
+			"punnet": "5lb chip tray",
+			"packaging_type": "chips",
 			"boxes_per_crate": 8,
 			"punnets_per_box": 1,
 			"barcode": "",
@@ -401,7 +411,8 @@ func create_default_products():
 			"customer_id": 2,
 			"product_type": "flats",
 			"target_weight": "1.8kg",
-			"punnet": "Large punnet",
+			"punnet": "4lb chip tray",
+			"packaging_type": "chips",
 			"boxes_per_crate": 8,
 			"punnets_per_box": 1,
 			"barcode": "",

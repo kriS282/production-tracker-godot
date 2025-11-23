@@ -4,6 +4,7 @@ extends Window
 
 var editing_product = null
 var product_types = ["cups", "buttons", "flats", "sliced", "chestnuts", "portobello"]
+var packaging_types = ["crates", "chips"]
 
 func _ready():
 	%CancelBtn.pressed.connect(_on_cancel_pressed)
@@ -21,6 +22,11 @@ func populate_dropdowns():
 	%ProductTypeDropdown.clear()
 	for ptype in product_types:
 		%ProductTypeDropdown.add_item(ptype.capitalize())
+
+	# Populate packaging type dropdown
+	%PackagingTypeDropdown.clear()
+	for pkg_type in packaging_types:
+		%PackagingTypeDropdown.add_item(pkg_type.capitalize())
 
 func populate_product(product: Dictionary):
 	editing_product = product
@@ -45,6 +51,12 @@ func populate_product(product: Dictionary):
 	if type_index != -1:
 		%ProductTypeDropdown.selected = type_index
 
+	# Set packaging type dropdown
+	var pkg_type = product.get("packaging_type", "crates")
+	var pkg_index = packaging_types.find(pkg_type)
+	if pkg_index != -1:
+		%PackagingTypeDropdown.selected = pkg_index
+
 	title = "Edit Product"
 	%SaveBtn.text = "Save Changes"
 
@@ -64,6 +76,8 @@ func clear_form():
 		%CustomerDropdown.selected = 0
 	if %ProductTypeDropdown.item_count > 0:
 		%ProductTypeDropdown.selected = 0
+	if %PackagingTypeDropdown.item_count > 0:
+		%PackagingTypeDropdown.selected = 0
 
 	title = "New Product"
 	%SaveBtn.text = "Create Product"
@@ -97,6 +111,10 @@ func _on_save_pressed():
 		show_error("Please select a product type")
 		return
 
+	if %PackagingTypeDropdown.selected == -1:
+		show_error("Please select a packaging type")
+		return
+
 	var boxes_per_crate = boxes_per_crate_text.to_int()
 	if boxes_per_crate <= 0:
 		show_error("Boxes per crate must be a positive number")
@@ -109,6 +127,7 @@ func _on_save_pressed():
 
 	var customer_id = %CustomerDropdown.get_item_id(%CustomerDropdown.selected)
 	var product_type = product_types[%ProductTypeDropdown.selected]
+	var packaging_type = packaging_types[%PackagingTypeDropdown.selected]
 
 	var product_data = {
 		"name": name,
@@ -116,6 +135,7 @@ func _on_save_pressed():
 		"product_type": product_type,
 		"target_weight": target_weight,
 		"punnet": punnet,
+		"packaging_type": packaging_type,
 		"boxes_per_crate": boxes_per_crate,
 		"punnets_per_box": punnets_per_box,
 		"barcode": barcode,
