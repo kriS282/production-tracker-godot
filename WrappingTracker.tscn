@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://wrappingtracker001"]
+[gd_scene load_steps=9 format=3 uid="uid://wrappingtracker001"]
 
 [ext_resource type="Script" path="res://WrappingTracker.gd" id="1"]
+[ext_resource type="PackedScene" path="res://OperatorRolePopup.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://IncomingInventoryPopup.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://LeftoversPopup.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://Class2Popup.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://DamagedPopup.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://WrappingSessionPopup.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://RM415Generator.tscn" id="8"]
 
 [node name="WrappingTracker" type="Control"]
 layout_mode = 3
@@ -159,51 +166,30 @@ text = "Notification"
 horizontal_alignment = 1
 visible = false
 
-[node name="OperatorRolePopup" type="Window" parent="."]
+[node name="OperatorRolePopup" parent="." instance=ExtResource("2")]
 unique_name_in_owner = true
-title = "Select Operator & Role"
-initial_position = 1
-size = Vector2i(400, 300)
 visible = false
 
-[node name="IncomingInventoryPopup" type="Window" parent="."]
+[node name="IncomingInventoryPopup" parent="." instance=ExtResource("3")]
 unique_name_in_owner = true
-title = "Add Incoming Inventory"
-initial_position = 1
-size = Vector2i(400, 350)
 visible = false
 
-[node name="LeftoversPopup" type="Window" parent="."]
+[node name="LeftoversPopup" parent="." instance=ExtResource("4")]
 unique_name_in_owner = true
-title = "Add Leftovers"
-initial_position = 1
-size = Vector2i(300, 200)
 visible = false
 
-[node name="Class2Popup" type="Window" parent="."]
+[node name="Class2Popup" parent="." instance=ExtResource("5")]
 unique_name_in_owner = true
-title = "Mark Class 2"
-initial_position = 1
-size = Vector2i(300, 200)
 visible = false
 
-[node name="DamagedPopup" type="Window" parent="."]
+[node name="DamagedPopup" parent="." instance=ExtResource("6")]
 unique_name_in_owner = true
-title = "Mark Damaged Punnets"
-initial_position = 1
-size = Vector2i(300, 200)
 visible = false
 
-[node name="WrappingSessionPopup" type="Window" parent="."]
+[node name="WrappingSessionPopup" parent="." instance=ExtResource("7")]
 unique_name_in_owner = true
-title = "Start Wrapping Session"
-initial_position = 1
-size = Vector2i(450, 400)
 visible = false
 
-[node name="RM415GeneratorPopup" type="Window" parent="."]
+[node name="RM415GeneratorPopup" parent="." instance=ExtResource("8")]
 unique_name_in_owner = true
-title = "Generate RM415 Form"
-initial_position = 1
-size = Vector2i(600, 700)
 visible = false

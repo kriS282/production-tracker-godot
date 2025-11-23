@@ -1,0 +1,188 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://RM415Generator.gd" id="1"]
+[ext_resource type="PackedScene" path="res://SignaturePad.tscn" id="2"]
+
+[node name="RM415GeneratorPopup" type="Window"]
+title = "Generate RM415 Form"
+initial_position = 2
+size = Vector2i(700, 800)
+visible = false
+script = ExtResource("1")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "RM415 - Label Retention and Check Sheet"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="FormVBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ProductSection" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox"]
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox/ProductSection"]
+layout_mode = 2
+
+[node name="Label1" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox/ProductSection/VBox"]
+layout_mode = 2
+text = "Product:"
+
+[node name="ProductInput" type="LineEdit" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox/ProductSection/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "e.g., 300g Cups"
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox/ProductSection/VBox"]
+layout_mode = 2
+text = "Supplier:"
+
+[node name="SupplierInput" type="LineEdit" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox/ProductSection/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "e.g., RM, McKenna"
+
+[node name="Label3" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox/ProductSection/VBox"]
+layout_mode = 2
+text = "Batch Code:"
+
+[node name="BatchInput" type="LineEdit" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox/ProductSection/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "e.g., L4405"
+
+[node name="Spacer1" type="Control" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+
+[node name="PunnetSection" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox"]
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox/PunnetSection"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox/PunnetSection/VBox"]
+layout_mode = 2
+text = "First Punnet Label Check:"
+
+[node name="PunnetChecklist" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox/PunnetSection/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Spacer2" type="Control" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+
+[node name="BoxSection" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox"]
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox/BoxSection"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox/BoxSection/VBox"]
+layout_mode = 2
+text = "Box Label Check:"
+
+[node name="BoxChecklist" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox/BoxSection/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Spacer3" type="Control" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox/BoxSection/VBox"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="PrintQualityCheck" type="CheckBox" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox/BoxSection/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Print Quality Good"
+
+[node name="LabelsMatchCheck" type="CheckBox" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox/BoxSection/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Product Name & Weight Match Box Details"
+
+[node name="Spacer4" type="Control" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+
+[node name="SignatureSection" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox"]
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox/SignatureSection"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox/SignatureSection/VBox"]
+layout_mode = 2
+text = "Signature:"
+
+[node name="SignBtn" type="Button" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox/SignatureSection/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "✍ Sign Document"
+custom_minimum_size = Vector2(0, 50)
+
+[node name="SignatureStatus" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox/SignatureSection/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Not signed"
+horizontal_alignment = 1
+
+[node name="Spacer5" type="Control" parent="MarginContainer/VBoxContainer/ScrollContainer/FormVBox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="ErrorLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Error"
+horizontal_alignment = 1
+visible = false
+
+[node name="NotificationLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Notification"
+horizontal_alignment = 1
+visible = false
+
+[node name="Spacer6" type="Control" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CancelBtn" type="Button" parent="MarginContainer/VBoxContainer/ButtonsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
+custom_minimum_size = Vector2(0, 60)
+
+[node name="GenerateBtn" type="Button" parent="MarginContainer/VBoxContainer/ButtonsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "📄 Generate Form"
+custom_minimum_size = Vector2(0, 60)
+
+[node name="SignaturePad" parent="." instance=ExtResource("2")]
+unique_name_in_owner = true
+visible = false
