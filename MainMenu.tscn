@@ -18,94 +18,116 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.15, 0.15, 0.15, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -400.0
-offset_top = -200.0
-offset_right = 400.0
-offset_bottom = 200.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 50
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 
-[node name="Title" type="Label" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 56
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 30
+
+[node name="HeaderSection" type="MarginContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_bottom = 40
+
+[node name="VBox" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/HeaderSection"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Title" type="Label" parent="ScrollContainer/VBoxContainer/HeaderSection/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
 text = "Production Manager"
 horizontal_alignment = 1
 
-[node name="WelcomeLabel" type="Label" parent="VBoxContainer"]
+[node name="WelcomeLabel" type="Label" parent="ScrollContainer/VBoxContainer/HeaderSection/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "Welcome, User"
 horizontal_alignment = 1
 
-[node name="RoleLabel" type="Label" parent="VBoxContainer"]
+[node name="RoleLabel" type="Label" parent="ScrollContainer/VBoxContainer/HeaderSection/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 28
 text = "Role: Staff"
 horizontal_alignment = 1
 
-[node name="Spacer" type="Control" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 20)
+[node name="ButtonsSection" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="BoxFoldingBtn" type="Button" parent="VBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 100)
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/ButtonsSection"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/ButtonsSection/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="BoxFoldingBtn" type="Button" parent="ScrollContainer/VBoxContainer/ButtonsSection/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
 text = "📦 Box Folding"
 
-[node name="WrappingBtn" type="Button" parent="VBoxContainer"]
+[node name="WrappingBtn" type="Button" parent="ScrollContainer/VBoxContainer/ButtonsSection/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 100)
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 40
 text = "🍄 Wrapping"
 
-[node name="OrdersBtn" type="Button" parent="VBoxContainer"]
+[node name="OrdersBtn" type="Button" parent="ScrollContainer/VBoxContainer/ButtonsSection/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 100)
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 40
 text = "📋 Orders"
 
-[node name="QualityControlBtn" type="Button" parent="VBoxContainer"]
+[node name="QualityControlBtn" type="Button" parent="ScrollContainer/VBoxContainer/ButtonsSection/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 100)
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 40
 text = "✓ Quality Control"
 
-[node name="AdminBtn" type="Button" parent="VBoxContainer"]
+[node name="AdminBtn" type="Button" parent="ScrollContainer/VBoxContainer/ButtonsSection/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 100)
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 40
 text = "⚙ Admin Panel"
 
-[node name="ControlPanelBtn" type="Button" parent="VBoxContainer"]
+[node name="ControlPanelBtn" type="Button" parent="ScrollContainer/VBoxContainer/ButtonsSection/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "🔧 Control Panel"
+
+[node name="LogoutSection" type="MarginContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 60
+
+[node name="LogoutBtn" type="Button" parent="ScrollContainer/VBoxContainer/LogoutSection"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
-text = "🔧 Control Panel"
-
-[node name="Spacer2" type="Control" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-
-[node name="LogoutBtn" type="Button" parent="VBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 60)
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "← Logout"
+
+[node name="Spacer" type="Control" parent="ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
