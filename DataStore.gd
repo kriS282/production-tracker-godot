@@ -6,6 +6,9 @@ extends Node
 var data_path = "user://production_data.json"
 var data = {
 	"users": [],
+	"customers": [],
+	"products": [],
+	"suppliers": [],
 	"orders": [],
 	"wrapping_sessions": [],
 	"inventory": [],
@@ -35,6 +38,9 @@ var data = {
 func _ready():
 	load_data()
 	create_default_admin()
+	create_default_customers()
+	create_default_products()
+	create_default_suppliers()
 
 func load_data():
 	if FileAccess.file_exists(data_path):
@@ -237,3 +243,263 @@ func save_rm415_form(form_data: Dictionary) -> bool:
 	data.rm415_forms.append(form_data)
 	save_data()
 	return true
+
+# Customers
+func create_default_customers():
+	if not data.customers.is_empty():
+		return
+
+	var default_customers = [
+		{
+			"id": 1,
+			"name": "Lidl",
+			"full_name": "Lidl RDC Mullingar",
+			"contact": "",
+			"notes": "Lidl stores delivery"
+		},
+		{
+			"id": 2,
+			"name": "Dublin",
+			"full_name": "Dublin Orders",
+			"contact": "",
+			"notes": "Dublin area deliveries"
+		},
+		{
+			"id": 3,
+			"name": "Production",
+			"full_name": "Production/Internal",
+			"contact": "",
+			"notes": "Internal production orders"
+		}
+	]
+
+	data.customers = default_customers
+	save_data()
+
+func create_customer(name: String, full_name: String, contact: String = "", notes: String = "") -> int:
+	var customer_id = data.customers.size() + 1
+	var customer = {
+		"id": customer_id,
+		"name": name,
+		"full_name": full_name,
+		"contact": contact,
+		"notes": notes
+	}
+	data.customers.append(customer)
+	save_data()
+	return customer_id
+
+func get_all_customers() -> Array:
+	return data.customers
+
+func get_customer_by_id(customer_id: int) -> Dictionary:
+	for customer in data.customers:
+		if customer.id == customer_id:
+			return customer
+	return {}
+
+func update_customer(customer_id: int, updates: Dictionary) -> bool:
+	for i in range(data.customers.size()):
+		if data.customers[i].id == customer_id:
+			for key in updates:
+				data.customers[i][key] = updates[key]
+			save_data()
+			return true
+	return false
+
+func delete_customer(customer_id: int) -> bool:
+	for i in range(data.customers.size()):
+		if data.customers[i].id == customer_id:
+			data.customers.remove_at(i)
+			save_data()
+			return true
+	return false
+
+# Products
+func create_default_products():
+	if not data.products.is_empty():
+		return
+
+	var default_products = [
+		# Lidl products
+		{
+			"id": 1,
+			"name": "433g Cups",
+			"customer_id": 1,
+			"product_type": "cups",
+			"target_weight": "433g",
+			"punnet": "Standard punnet",
+			"boxes_per_crate": 12,
+			"punnets_per_box": 1,
+			"barcode": "",
+			"pn": ""
+		},
+		{
+			"id": 2,
+			"name": "300g Cups",
+			"customer_id": 1,
+			"product_type": "cups",
+			"target_weight": "300g",
+			"punnet": "Standard punnet",
+			"boxes_per_crate": 16,
+			"punnets_per_box": 1,
+			"barcode": "",
+			"pn": ""
+		},
+		{
+			"id": 3,
+			"name": "150g Buttons",
+			"customer_id": 1,
+			"product_type": "buttons",
+			"target_weight": "150g",
+			"punnet": "Standard punnet",
+			"boxes_per_crate": 16,
+			"punnets_per_box": 1,
+			"barcode": "",
+			"pn": ""
+		},
+		{
+			"id": 4,
+			"name": "250g Flats",
+			"customer_id": 1,
+			"product_type": "flats",
+			"target_weight": "250g",
+			"punnet": "Standard punnet",
+			"boxes_per_crate": 6,
+			"punnets_per_box": 1,
+			"barcode": "",
+			"pn": ""
+		},
+		{
+			"id": 5,
+			"name": "150g Sliced",
+			"customer_id": 1,
+			"product_type": "sliced",
+			"target_weight": "150g",
+			"punnet": "Standard punnet",
+			"boxes_per_crate": 8,
+			"punnets_per_box": 1,
+			"barcode": "",
+			"pn": ""
+		},
+		# Dublin products
+		{
+			"id": 6,
+			"name": "2.27kg/5lb Cups",
+			"customer_id": 2,
+			"product_type": "cups",
+			"target_weight": "2.27kg",
+			"punnet": "Large punnet",
+			"boxes_per_crate": 8,
+			"punnets_per_box": 1,
+			"barcode": "",
+			"pn": ""
+		},
+		{
+			"id": 7,
+			"name": "1.8kg/4lb Flats",
+			"customer_id": 2,
+			"product_type": "flats",
+			"target_weight": "1.8kg",
+			"punnet": "Large punnet",
+			"boxes_per_crate": 8,
+			"punnets_per_box": 1,
+			"barcode": "",
+			"pn": ""
+		}
+	]
+
+	data.products = default_products
+	save_data()
+
+func create_product(product_data: Dictionary) -> int:
+	var product_id = data.products.size() + 1
+	product_data["id"] = product_id
+	data.products.append(product_data)
+	save_data()
+	return product_id
+
+func get_all_products() -> Array:
+	return data.products
+
+func get_products_by_customer(customer_id: int) -> Array:
+	var products = []
+	for product in data.products:
+		if product.customer_id == customer_id:
+			products.append(product)
+	return products
+
+func get_product_by_id(product_id: int) -> Dictionary:
+	for product in data.products:
+		if product.id == product_id:
+			return product
+	return {}
+
+func update_product(product_id: int, updates: Dictionary) -> bool:
+	for i in range(data.products.size()):
+		if data.products[i].id == product_id:
+			for key in updates:
+				data.products[i][key] = updates[key]
+			save_data()
+			return true
+	return false
+
+func delete_product(product_id: int) -> bool:
+	for i in range(data.products.size()):
+		if data.products[i].id == product_id:
+			data.products.remove_at(i)
+			save_data()
+			return true
+	return false
+
+# Suppliers
+func create_default_suppliers():
+	if not data.suppliers.is_empty():
+		return
+
+	var default_suppliers = [
+		{"id": 1, "name": "RM", "contact": "", "notes": ""},
+		{"id": 2, "name": "McKenna", "contact": "", "notes": ""},
+		{"id": 3, "name": "Reilly Growing", "contact": "", "notes": ""}
+	]
+
+	data.suppliers = default_suppliers
+	save_data()
+
+func create_supplier(name: String, contact: String = "", notes: String = "") -> int:
+	var supplier_id = data.suppliers.size() + 1
+	var supplier = {
+		"id": supplier_id,
+		"name": name,
+		"contact": contact,
+		"notes": notes
+	}
+	data.suppliers.append(supplier)
+	save_data()
+	return supplier_id
+
+func get_all_suppliers() -> Array:
+	return data.suppliers
+
+func get_supplier_by_id(supplier_id: int) -> Dictionary:
+	for supplier in data.suppliers:
+		if supplier.id == supplier_id:
+			return supplier
+	return {}
+
+func update_supplier(supplier_id: int, updates: Dictionary) -> bool:
+	for i in range(data.suppliers.size()):
+		if data.suppliers[i].id == supplier_id:
+			for key in updates:
+				data.suppliers[i][key] = updates[key]
+			save_data()
+			return true
+	return false
+
+func delete_supplier(supplier_id: int) -> bool:
+	for i in range(data.suppliers.size()):
+		if data.suppliers[i].id == supplier_id:
+			data.suppliers.remove_at(i)
+			save_data()
+			return true
+	return false
