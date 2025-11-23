@@ -23,6 +23,7 @@ func update_ui():
 	%OrdersBtn.visible = "orders" in current_user.tasks
 	%QualityControlBtn.visible = "quality_control" in current_user.tasks
 	%AdminBtn.visible = current_user.is_admin
+	%ControlPanelBtn.visible = current_user.is_admin
 
 func connect_buttons():
 	%BoxFoldingBtn.pressed.connect(_on_box_folding_pressed)
@@ -30,6 +31,7 @@ func connect_buttons():
 	%OrdersBtn.pressed.connect(_on_orders_pressed)
 	%QualityControlBtn.pressed.connect(_on_quality_control_pressed)
 	%AdminBtn.pressed.connect(_on_admin_pressed)
+	%ControlPanelBtn.pressed.connect(_on_control_panel_pressed)
 	%LogoutBtn.pressed.connect(_on_logout_pressed)
 
 func _on_box_folding_pressed():
@@ -46,6 +48,9 @@ func _on_quality_control_pressed():
 
 func _on_admin_pressed():
 	get_tree().change_scene_to_file("res://AdminPanel.tscn")
+
+func _on_control_panel_pressed():
+	get_tree().change_scene_to_file("res://ControlPanel.tscn")
 
 func _on_logout_pressed():
 	DataStore.logout()

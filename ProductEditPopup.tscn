@@ -1,0 +1,172 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://ProductEditPopup.gd" id="1"]
+
+[node name="ProductEditPopup" type="Window"]
+title = "Edit Product"
+initial_position = 2
+size = Vector2i(600, 1000)
+visible = false
+script = ExtResource("1")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Title" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Product Details"
+horizontal_alignment = 1
+
+[node name="NameLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Product Name:"
+
+[node name="NameInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 70)
+theme_override_font_sizes/font_size = 24
+placeholder_text = "e.g., 433g Cups"
+
+[node name="CustomerLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Customer:"
+
+[node name="CustomerDropdown" type="OptionButton" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 70)
+theme_override_font_sizes/font_size = 24
+
+[node name="ProductTypeLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Product Type:"
+
+[node name="ProductTypeDropdown" type="OptionButton" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 70)
+theme_override_font_sizes/font_size = 24
+
+[node name="TargetWeightLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Target Weight:"
+
+[node name="TargetWeightInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 70)
+theme_override_font_sizes/font_size = 24
+placeholder_text = "e.g., 433g, 2.27kg, 5lb"
+
+[node name="PunnetLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Punnet/Tray Type:"
+
+[node name="PunnetInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 70)
+theme_override_font_sizes/font_size = 24
+placeholder_text = "e.g., Standard punnet, Large punnet"
+
+[node name="BoxesPerCrateLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Boxes per Crate:"
+
+[node name="BoxesPerCrateInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 70)
+theme_override_font_sizes/font_size = 24
+placeholder_text = "e.g., 12"
+
+[node name="PunnetsPerBoxLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Punnets per Box:"
+
+[node name="PunnetsPerBoxInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 70)
+theme_override_font_sizes/font_size = 24
+placeholder_text = "e.g., 1"
+
+[node name="BarcodeLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Barcode (optional):"
+
+[node name="BarcodeInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 70)
+theme_override_font_sizes/font_size = 24
+placeholder_text = "Product barcode"
+
+[node name="PNLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "PN Number (optional):"
+
+[node name="PNInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 70)
+theme_override_font_sizes/font_size = 24
+placeholder_text = "Product PN number"
+
+[node name="Spacer" type="Control" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 20)
+
+[node name="ErrorLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+text = "Error"
+horizontal_alignment = 1
+visible = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="CancelBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 100)
+theme_override_font_sizes/font_size = 28
+text = "Cancel"
+
+[node name="SaveBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 100)
+theme_override_font_sizes/font_size = 28
+text = "Save"
