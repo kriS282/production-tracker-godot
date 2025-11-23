@@ -1,4 +1,4 @@
-extends Control
+extends Window
 
 signal signature_completed(signature_data: Image)
 

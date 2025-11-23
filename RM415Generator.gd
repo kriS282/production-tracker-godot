@@ -1,4 +1,4 @@
-extends Control
+extends Window
 
 signal form_completed(form_data: Dictionary)
 

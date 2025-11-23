@@ -159,7 +159,7 @@ func show_pallet_notification(count: int):
 	%NotificationLabel.hide()
 
 func set_operator(operator_name: String):
-	current_operator = name
+	current_operator = operator_name
 	update_ui()
 
 func set_box_type(box_type: String):

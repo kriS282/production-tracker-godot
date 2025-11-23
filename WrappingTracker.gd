@@ -245,9 +245,10 @@ func show_notification(message: String):
 	await get_tree().create_timer(3.0).timeout
 	%NotificationLabel.hide()
 
-func calculate_batch_code(dispatch_date: String) -> String:
+func calculate_batch_code(_dispatch_date: String = "") -> String:
 	# Format: LWWdd (Week + Day)
 	# Example: L4405 = Week 44, Thursday (+1 for Friday)
+	# Note: Currently uses system date, dispatch_date parameter reserved for future use
 	var date_dict = Time.get_datetime_dict_from_system()
 	var week = date_dict.get("week", 1)
 	var weekday = date_dict.get("weekday", 1)
