@@ -10,10 +10,14 @@ config_version=5
 
 [application]
 
-config/name="Box Tracker System"
-run/main_scene="res://MainMenu.tscn"
+config/name="Production Manager"
+run/main_scene="res://LoginScreen.tscn"
 config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+DataStore="*res://DataStore.gd"
 
 [display]
 

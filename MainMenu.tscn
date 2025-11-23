@@ -35,20 +35,70 @@ theme_override_constants/separation = 50
 
 [node name="Title" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
-text = "Production Tracker"
+theme_override_font_sizes/font_size = 56
+text = "Production Manager"
 horizontal_alignment = 1
+
+[node name="WelcomeLabel" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Welcome, User"
+horizontal_alignment = 1
+
+[node name="RoleLabel" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Role: Staff"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 
 [node name="BoxFoldingBtn" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 150)
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
-theme_override_font_sizes/font_size = 48
-text = "📦 Start Box Folding"
+theme_override_font_sizes/font_size = 36
+text = "📦 Box Folding"
 
 [node name="WrappingBtn" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 150)
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
-theme_override_font_sizes/font_size = 48
-text = "🍄 Start Wrapping"
+theme_override_font_sizes/font_size = 36
+text = "🍄 Wrapping"
+
+[node name="OrdersBtn" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "📋 Orders"
+
+[node name="QualityControlBtn" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "✓ Quality Control"
+
+[node name="AdminBtn" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "⚙ Admin Panel"
+
+[node name="Spacer2" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="LogoutBtn" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "← Logout"
