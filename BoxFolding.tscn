@@ -1,0 +1,291 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://BoxFolding.gd" id="1"]
+[ext_resource type="PackedScene" path="res://BoxOperatorPopup.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://BoxTypePopup.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://AddCustomPopup.tscn" id="4"]
+
+[node name="BoxFolding" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.15, 0.15, 0.15, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 30
+
+[node name="HeaderSection" type="MarginContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_right = 40
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/HeaderSection"]
+layout_mode = 2
+
+[node name="BackBtn" type="Button" parent="ScrollContainer/VBoxContainer/HeaderSection/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "← Back"
+
+[node name="Spacer" type="Control" parent="ScrollContainer/VBoxContainer/HeaderSection/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="ScrollContainer/VBoxContainer/HeaderSection/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 56
+text = "Box Folding"
+
+[node name="Spacer2" type="Control" parent="ScrollContainer/VBoxContainer/HeaderSection/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="OperatorSection" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/OperatorSection"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/OperatorSection/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/OperatorSection/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Operator:"
+
+[node name="OperatorLabel" type="Label" parent="ScrollContainer/VBoxContainer/OperatorSection/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "No operator selected"
+
+[node name="SelectOperatorBtn" type="Button" parent="ScrollContainer/VBoxContainer/OperatorSection/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Select Operator"
+
+[node name="BoxTypeSection" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/BoxTypeSection"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/BoxTypeSection/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/BoxTypeSection/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Box Type:"
+
+[node name="BoxTypeLabel" type="Label" parent="ScrollContainer/VBoxContainer/BoxTypeSection/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "No box type selected"
+
+[node name="SelectBoxTypeBtn" type="Button" parent="ScrollContainer/VBoxContainer/BoxTypeSection/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Select Box Type"
+
+[node name="CountSection" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/CountSection"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/CountSection/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="CountLabel" type="Label" parent="ScrollContainer/VBoxContainer/CountSection/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Count: 0"
+horizontal_alignment = 1
+
+[node name="PalletCountLabel" type="Label" parent="ScrollContainer/VBoxContainer/CountSection/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 44
+text = "Pallets: 0.00"
+horizontal_alignment = 1
+
+[node name="NotificationLabel" type="Label" parent="ScrollContainer/VBoxContainer/CountSection/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 1, 0.3, 1)
+theme_override_font_sizes/font_size = 48
+text = "🎉 Pallet Complete!"
+horizontal_alignment = 1
+
+[node name="AddCustomBtn" type="Button" parent="ScrollContainer/VBoxContainer/CountSection/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Add Custom Amount"
+modulate = Color(0.3, 1, 0.3, 1)
+
+[node name="Separator" type="Label" parent="ScrollContainer/VBoxContainer/CountSection/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Fine Adjustments:"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/CountSection/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="DecrementBtn" type="Button" parent="ScrollContainer/VBoxContainer/CountSection/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 56
+text = "-1"
+
+[node name="IncrementBtn" type="Button" parent="ScrollContainer/VBoxContainer/CountSection/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 56
+text = "+1"
+
+[node name="TimerSection" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/TimerSection"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/TimerSection/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/TimerSection/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Timer:"
+
+[node name="TimerLabel" type="Label" parent="ScrollContainer/VBoxContainer/TimerSection/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 80
+text = "00:00:00"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/TimerSection/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="StartStopBtn" type="Button" parent="ScrollContainer/VBoxContainer/TimerSection/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 40
+text = "Start Timer"
+
+[node name="ResetBtn" type="Button" parent="ScrollContainer/VBoxContainer/TimerSection/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 40
+text = "Reset"
+
+[node name="SaveSection" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/SaveSection"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/SaveSection/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="SaveSessionBtn" type="Button" parent="ScrollContainer/VBoxContainer/SaveSection/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "💾 Save Session"
+modulate = Color(0.4, 0.7, 1, 1)
+
+[node name="SaveLabel" type="Label" parent="ScrollContainer/VBoxContainer/SaveSection/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 1, 0.3, 1)
+theme_override_font_sizes/font_size = 40
+text = "✓ Saved!"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="OperatorPopup" parent="." instance=ExtResource("2")]
+unique_name_in_owner = true
+visible = false
+
+[node name="BoxTypePopup" parent="." instance=ExtResource("3")]
+unique_name_in_owner = true
+visible = false
+
+[node name="AddCustomPopup" parent="." instance=ExtResource("4")]
+unique_name_in_owner = true
+visible = false
