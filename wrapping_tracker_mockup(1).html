@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wrapping Tracker - UI Mockup (Dark Theme)</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    background: #1a1a1a;
+    color: #e0e0e0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.app-container {
+    max-width: 450px;
+    margin: 0 auto;
+    background: #1a1a1a;
+    min-height: 100vh;
+}
+
+/* TOP BAR */
+.top-bar {
+    background: #252525;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.back-btn {
+    background: #2a2a2a;
+    border: none;
+    color: #4a9eff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.settings-btn {
+    background: #2a2a2a;
+    border: none;
+    color: #e0e0e0;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* CONTENT */
+.content {
+    padding: 15px;
+}
+
+/* CARD STYLE */
+.card {
+    background: #252525;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.card-header {
+    font-size: 14px;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+/* OPERATOR SECTION */
+.current-operator {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #2a2a2a;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.current-operator:hover {
+    background: #303030;
+}
+
+.operator-name {
+    font-size: 18px;
+    font-weight: 500;
+    color: #4a9eff;
+}
+
+.operator-status {
+    font-size: 14px;
+    color: #6c6;
+    background: rgba(102, 204, 102, 0.15);
+    padding: 4px 12px;
+    border-radius: 12px;
+}
+
+.add-operator-btn {
+    width: 100%;
+    padding: 12px;
+    background: #2a2a2a;
+    border: 2px dashed #444;
+    border-radius: 8px;
+    color: #888;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.add-operator-btn:hover {
+    border-color: #666;
+    color: #aaa;
+}
+
+/* PRODUCT DISPLAY */
+.product-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.product-name {
+    font-size: 24px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.quantity-info {
+    text-align: right;
+}
+
+.quantity-label {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 4px;
+}
+
+.quantity-value {
+    font-size: 20px;
+    font-weight: 600;
+    color: #6c6;
+}
+
+.barcode {
+    font-size: 13px;
+    color: #777;
+    font-family: 'Courier New', monospace;
+    margin-top: 4px;
+}
+
+.change-btn {
+    width: 100%;
+    padding: 14px;
+    background: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+    color: #e0e0e0;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 8px;
+}
+
+.change-btn:hover {
+    background: #303030;
+    border-color: #4a4a4a;
+}
+
+/* SUPPLIER & DEFECTS */
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.info-label {
+    font-size: 14px;
+    color: #999;
+}
+
+.info-value {
+    font-size: 16px;
+    color: #e0e0e0;
+}
+
+/* DATES */
+.date-picker {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #2a2a2a;
+    border-radius: 8px;
+    padding: 8px;
+    margin-top: 8px;
+}
+
+.date-btn {
+    background: #ff4444;
+    border: none;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    font-size: 24px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.date-btn.plus {
+    background: #4c4;
+}
+
+.date-display {
+    font-size: 28px;
+    font-weight: 600;
+    color: #ffffff;
+    flex: 1;
+    text-align: center;
+}
+
+/* TIMER DISPLAY */
+.timer-card {
+    background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+    border: 2px solid #3a3a3a;
+}
+
+.timer-display {
+    text-align: center;
+    padding: 20px;
+}
+
+.timer-value {
+    font-size: 48px;
+    font-weight: 700;
+    color: #4a9eff;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 2px;
+}
+
+.timer-label {
+    font-size: 13px;
+    color: #999;
+    margin-top: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.break-info {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #3a3a3a;
+}
+
+.break-stat {
+    text-align: center;
+}
+
+.break-stat-value {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffa64d;
+}
+
+.break-stat-label {
+    font-size: 11px;
+    color: #999;
+    margin-top: 4px;
+}
+
+/* CONTROL BUTTONS */
+.control-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.control-btn {
+    padding: 18px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.control-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.btn-start {
+    background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+    color: white;
+    grid-column: 1 / -1;
+}
+
+.btn-picture {
+    background: #2a2a2a;
+    color: #e0e0e0;
+}
+
+.btn-pause {
+    background: #ffa64d;
+    color: #1a1a1a;
+}
+
+.btn-finish {
+    background: linear-gradient(135deg, #ff4444 0%, #aa0000 100%);
+    color: white;
+    grid-column: 1 / -1;
+}
+
+/* STATISTICS SECTION */
+.stats-section {
+    background: #252525;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.stats-header {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-box {
+    background: #2a2a2a;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #4a9eff;
+    margin-bottom: 5px;
+}
+
+.stat-value.good {
+    color: #6c6;
+}
+
+.stat-value.bad {
+    color: #ff6b6b;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.defects-breakdown {
+    background: #2a2a2a;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.defects-header {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ff6b6b;
+    margin-bottom: 12px;
+}
+
+.defect-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #333;
+}
+
+.defect-item:last-child {
+    border-bottom: none;
+}
+
+.defect-name {
+    font-size: 14px;
+    color: #e0e0e0;
+}
+
+.defect-count {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ff6b6b;
+}
+
+/* OPERATOR POPUP */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.popup {
+    background: #252525;
+    border-radius: 16px;
+    padding: 25px;
+    width: 90%;
+    max-width: 350px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+.popup-header {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.popup-info {
+    background: #2a2a2a;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.popup-info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.popup-info-row:last-child {
+    margin-bottom: 0;
+}
+
+.popup-label {
+    font-size: 13px;
+    color: #999;
+}
+
+.popup-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: #4a9eff;
+}
+
+.popup-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.popup-btn {
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.popup-btn.break {
+    background: #ffa64d;
+    color: #1a1a1a;
+}
+
+.popup-btn.stop {
+    background: #ff4444;
+    color: white;
+}
+
+.popup-btn.cancel {
+    background: #2a2a2a;
+    color: #e0e0e0;
+    border: 1px solid #3a3a3a;
+}
+
+.note {
+    text-align: center;
+    color: #666;
+    font-size: 12px;
+    margin-top: 20px;
+    font-style: italic;
+}
+</style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <button class="back-btn">← Back</button>
+        <div class="title">Wrapping Tracker</div>
+        <button class="settings-btn">⚙</button>
+    </div>
+
+    <div class="content">
+        <!-- OPERATOR CARD -->
+        <div class="card">
+            <div class="card-header">Operators</div>
+            <div class="current-operator">
+                <div>
+                    <div class="operator-name">Sabrina</div>
+                    <div style="font-size: 12px; color: #999; margin-top: 4px;">Tap to manage</div>
+                </div>
+                <div class="operator-status">● Active</div>
+            </div>
+            <button class="add-operator-btn">+ Add Operator</button>
+        </div>
+
+        <!-- PRODUCT CARD -->
+        <div class="card">
+            <div class="card-header">Product</div>
+            <div class="product-display">
+                <div class="product-name">433g Cups</div>
+                <div class="quantity-info">
+                    <div class="quantity-label">QUANTITY</div>
+                    <div class="quantity-value">140×12</div>
+                    <div class="barcode">2078 1675</div>
+                </div>
+            </div>
+            <button class="change-btn">▼ Change Product</button>
+            <button class="change-btn">Change Quantity</button>
+        </div>
+
+        <!-- SUPPLIER & DEFECTS CARD -->
+        <div class="card">
+            <div class="card-header">Details</div>
+            <div class="info-row">
+                <span class="info-label">Supplier:</span>
+                <span class="info-value">Reilly Mushrooms (PN509)</span>
+            </div>
+            <button class="change-btn">▼ Change Supplier</button>
+            <div style="height: 15px;"></div>
+            <div class="info-row">
+                <span class="info-label">Bad Wraps:</span>
+                <span class="info-value" style="color: #ff6b6b;">Empty Film (3)</span>
+            </div>
+            <button class="change-btn">▼ Track Bad Wrap</button>
+        </div>
+
+        <!-- DATES CARD -->
+        <div class="card">
+            <div class="card-header">Pick Date</div>
+            <div class="date-picker">
+                <button class="date-btn">−</button>
+                <div class="date-display">22/11/25</div>
+                <button class="date-btn plus">+</button>
+            </div>
+            
+            <div style="height: 15px;"></div>
+            <div class="card-header">Delivery Date</div>
+            <div class="date-picker">
+                <button class="date-btn">−</button>
+                <div class="date-display">23/11/25</div>
+                <button class="date-btn plus">+</button>
+            </div>
+        </div>
+
+        <!-- TIMER CARD -->
+        <div class="card timer-card">
+            <div class="card-header" style="text-align: center;">Session Time</div>
+            <div class="timer-display">
+                <div class="timer-value">01:23:45</div>
+                <div class="timer-label">Active Wrapping Time</div>
+            </div>
+            <div class="break-info">
+                <div class="break-stat">
+                    <div class="break-stat-value">00:12:30</div>
+                    <div class="break-stat-label">Total Breaks</div>
+                </div>
+                <div class="break-stat">
+                    <div class="break-stat-value">00:08:15</div>
+                    <div class="break-stat-label">Since Last Break</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTROL BUTTONS -->
+        <div class="control-buttons">
+            <button class="control-btn btn-start">START WRAPPING</button>
+            <button class="control-btn btn-picture">📷 Take Picture</button>
+            <button class="control-btn btn-pause">⏸ Pause / Break</button>
+            <button class="control-btn btn-finish">FINISH WRAPPING</button>
+        </div>
+
+        <!-- STATISTICS (Shown after finishing) -->
+        <div class="stats-section">
+            <div class="stats-header">📊 SESSION STATISTICS</div>
+            
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value good">142.5</div>
+                    <div class="stat-label">Punnets/Minute</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value good">8,550</div>
+                    <div class="stat-label">Punnets/Hour</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value bad">2.1</div>
+                    <div class="stat-label">Bad Punnets/Min</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value good">98.5%</div>
+                    <div class="stat-label">Efficiency</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">11.9</div>
+                    <div class="stat-label">Boxes/Hour</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">01:23:45</div>
+                    <div class="stat-label">Work Time</div>
+                </div>
+            </div>
+
+            <div class="defects-breakdown">
+                <div class="defects-header">🔴 DEFECTS BREAKDOWN</div>
+                <div class="defect-item">
+                    <span class="defect-name">Empty Film</span>
+                    <span class="defect-count">12</span>
+                </div>
+                <div class="defect-item">
+                    <span class="defect-name">Smashed Punnet</span>
+                    <span class="defect-count">8</span>
+                </div>
+                <div class="defect-item">
+                    <span class="defect-name">Open Punnet</span>
+                    <span class="defect-count">5</span>
+                </div>
+                <div class="defect-item">
+                    <span class="defect-name">Misprint</span>
+                    <span class="defect-count">2</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="note">
+            This is a visual mockup preview • Final version will be built in Godot
+        </div>
+    </div>
+</div>
+
+<!-- OPERATOR POPUP (Hidden by default) -->
+<div class="popup-overlay" style="display: none;">
+    <div class="popup">
+        <div class="popup-header">Sabrina's Session</div>
+        
+        <div class="popup-info">
+            <div class="popup-info-row">
+                <span class="popup-label">Session Time:</span>
+                <span class="popup-value">01:23:45</span>
+            </div>
+            <div class="popup-info-row">
+                <span class="popup-label">Time Since Break:</span>
+                <span class="popup-value">00:08:15</span>
+            </div>
+            <div class="popup-info-row">
+                <span class="popup-label">Product:</span>
+                <span class="popup-value">433g Cups</span>
+            </div>
+        </div>
+
+        <div class="popup-buttons">
+            <button class="popup-btn break">☕ Take Break</button>
+            <button class="popup-btn stop">⏹ Stop Wrapping</button>
+            <button class="popup-btn cancel">Cancel</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
