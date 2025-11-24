@@ -79,33 +79,59 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="AddOperatorBtn" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="OperatorButtonsHBox" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="AddOperatorBtn" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/OperatorButtonsHBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 70)
 layout_mode = 2
-size_flags_horizontal = 0
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 28
 text = "▼ Add Operator"
 
+[node name="AddManualOperatorBtn" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/OperatorButtonsHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 70)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 28
+text = "+ Manual Operator"
+
 [node name="HSeparator1" type="HSeparator" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="ProductNameLabel" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "(Select Product)"
+
+[node name="ProductBarcodeLabel" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+text = ""
 
 [node name="ProductLine" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="ProductLabel" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/ProductLine"]
+[node name="QuantityLabel" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/ProductLine"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 28
-text = "Product: (Current Product)"
+text = "Quantity: --"
 
-[node name="QuantityLabel" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/ProductLine"]
+[node name="ChangeQuantityBtn" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/ProductLine"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
-theme_override_font_sizes/font_size = 28
-text = "Quantity: 140x12"
+theme_override_font_sizes/font_size = 24
+text = "▼ Change Qty"
 
 [node name="ChangeProductBtn" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -202,6 +228,21 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.3, 1, 0.3, 1)
 theme_override_font_sizes/font_size = 48
 text = "+"
+
+[node name="BatchCodeLabel" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+text = "Batch: (Auto-generated on start)"
+
+[node name="SelectOrderBtn" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 70)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 28
+text = "▼ Select Order (Optional)"
 
 [node name="HSeparator4" type="HSeparator" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -382,4 +423,39 @@ visible = false
 
 [node name="CustomReasonPopup" parent="." instance=ExtResource("7")]
 unique_name_in_owner = true
+visible = false
+
+[node name="ManualOperatorPopup" type="Window" parent="."]
+unique_name_in_owner = true
+title = "Add Manual Operator"
+initial_position = 2
+size = Vector2i(400, 500)
+visible = false
+
+[node name="QuantityPopup" type="Window" parent="."]
+unique_name_in_owner = true
+title = "Set Quantity"
+initial_position = 2
+size = Vector2i(450, 550)
+visible = false
+
+[node name="PauseReasonPopup" type="Window" parent="."]
+unique_name_in_owner = true
+title = "Pause Reason"
+initial_position = 2
+size = Vector2i(400, 600)
+visible = false
+
+[node name="OperatorManagePopup" type="Window" parent="."]
+unique_name_in_owner = true
+title = "Manage Operator"
+initial_position = 2
+size = Vector2i(400, 500)
+visible = false
+
+[node name="OrderSelectPopup" type="Window" parent="."]
+unique_name_in_owner = true
+title = "Select Order"
+initial_position = 2
+size = Vector2i(600, 700)
 visible = false
