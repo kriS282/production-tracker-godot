@@ -1,8 +1,6 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://WrappingTrackerNew.gd" id="1"]
-[ext_resource type="PackedScene" path="res://OperatorSelectPopup.tscn" id="2"]
-[ext_resource type="PackedScene" path="res://ProductSetupPopup.tscn" id="3"]
 [ext_resource type="PackedScene" path="res://RM415Generator.tscn" id="4"]
 [ext_resource type="PackedScene" path="res://BadProductPopup.tscn" id="5"]
 [ext_resource type="PackedScene" path="res://BadWrapPopup.tscn" id="6"]
@@ -32,7 +30,9 @@ anchor_bottom = 1.0
 
 [node name="HeaderSection" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 10
 
 [node name="HBox" type="HBoxContainer" parent="VBoxContainer/HeaderSection"]
@@ -41,276 +41,276 @@ theme_override_constants/separation = 20
 
 [node name="BackBtn" type="Button" parent="VBoxContainer/HeaderSection/HBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 80)
+custom_minimum_size = Vector2(80, 60)
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 28
 text = "←"
 
 [node name="Title" type="Label" parent="VBoxContainer/HeaderSection/HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 56
-text = "🍄 Wrapping Tracker"
-horizontal_alignment = 1
+theme_override_font_sizes/font_size = 48
+text = "Wrapping Tracker"
 
-[node name="Spacer" type="Control" parent="VBoxContainer/HeaderSection/HBox"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-
-[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-tab_alignment = 1
 
-[node name="Wrapping" type="ScrollContainer" parent="VBoxContainer/TabContainer"]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Wrapping"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/separation = 30
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 
-[node name="OperatorSection" type="PanelContainer" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 15
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer/OperatorSection"]
-layout_mode = 2
-theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 30
-theme_override_constants/margin_right = 40
-theme_override_constants/margin_bottom = 30
-
-[node name="VBox" type="VBoxContainer" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer/OperatorSection/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="Title" type="Label" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer/OperatorSection/MarginContainer/VBox"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "👤 Operator"
-horizontal_alignment = 1
-
-[node name="OperatorLabel" type="Label" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer/OperatorSection/MarginContainer/VBox"]
-unique_name_in_owner = true
+[node name="OperatorsTitle" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "No operator selected"
-horizontal_alignment = 1
+text = "Operators:"
 
-[node name="SelectOperatorBtn" type="Button" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer/OperatorSection/MarginContainer/VBox"]
+[node name="OperatorsList" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
-text = "Select Operator"
+theme_override_constants/separation = 8
 
-[node name="ProductSection" type="PanelContainer" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer"]
+[node name="AddOperatorBtn" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 70)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 28
+text = "▼ Add Operator"
+
+[node name="HSeparator1" type="HSeparator" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer/ProductSection"]
+[node name="ProductLine" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 30
-theme_override_constants/margin_right = 40
-theme_override_constants/margin_bottom = 30
+theme_override_constants/separation = 30
 
-[node name="VBox" type="VBoxContainer" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer/ProductSection/MarginContainer"]
+[node name="ProductLabel" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/ProductLine"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 20
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 28
+text = "Product: (Current Product)"
 
-[node name="Title" type="Label" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer/ProductSection/MarginContainer/VBox"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "📦 Product"
-horizontal_alignment = 1
-
-[node name="ProductInfoLabel" type="Label" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer/ProductSection/MarginContainer/VBox"]
+[node name="QuantityLabel" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/ProductLine"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
-text = "No product selected"
-horizontal_alignment = 1
+text = "Quantity: 140x12"
 
-[node name="SelectProductBtn" type="Button" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer/ProductSection/MarginContainer/VBox"]
+[node name="ChangeProductBtn" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 120)
+custom_minimum_size = Vector2(250, 70)
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
-text = "Select Product"
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 28
+text = "▼ Change Product"
 
-[node name="CratesSection" type="PanelContainer" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer/CratesSection"]
-layout_mode = 2
-theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 30
-theme_override_constants/margin_right = 40
-theme_override_constants/margin_bottom = 30
-
-[node name="VBox" type="VBoxContainer" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer/CratesSection/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 25
-
-[node name="Title" type="Label" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer/CratesSection/MarginContainer/VBox"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "📊 Counter"
-horizontal_alignment = 1
-
-[node name="CratesLabel" type="Label" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer/CratesSection/MarginContainer/VBox"]
+[node name="SupplierLabel" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
-text = "Crates: 0"
-horizontal_alignment = 1
+theme_override_font_sizes/font_size = 28
+text = "Supplier: (Current Supplier)"
 
-[node name="HBox" type="HBoxContainer" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer/CratesSection/MarginContainer/VBox"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="DecrementCratesBtn" type="Button" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer/CratesSection/MarginContainer/VBox/HBox"]
+[node name="ChangeSupplierBtn" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 70)
 layout_mode = 2
-size_flags_horizontal = 3
-custom_minimum_size = Vector2(0, 140)
-theme_override_font_sizes/font_size = 56
-text = "- 1"
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 28
+text = "▼ Change Supplier"
 
-[node name="IncrementCratesBtn" type="Button" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer/CratesSection/MarginContainer/VBox/HBox"]
+[node name="HSeparator3" type="HSeparator" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PickDateLabel" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Pick Date:"
+
+[node name="PickDateHBox" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="PickDateDecBtn" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/PickDateHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 90)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 48
+text = "-"
+
+[node name="PickDateDisplay" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/PickDateHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-custom_minimum_size = Vector2(0, 140)
-theme_override_font_sizes/font_size = 56
-text = "+ 1"
+theme_override_font_sizes/font_size = 48
+text = "22/11/25"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="ActionsSection" type="PanelContainer" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer"]
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer/ActionsSection"]
-layout_mode = 2
-theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 30
-theme_override_constants/margin_right = 40
-theme_override_constants/margin_bottom = 30
-
-[node name="VBox" type="VBoxContainer" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer/ActionsSection/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="EndSessionBtn" type="Button" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer/ActionsSection/MarginContainer/VBox"]
+[node name="PickDateIncBtn" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/PickDateHBox"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 90)
 layout_mode = 2
-custom_minimum_size = Vector2(0, 120)
-theme_override_font_sizes/font_size = 36
-text = "■ End Session"
+theme_override_colors/font_color = Color(0.3, 1, 0.3, 1)
+theme_override_font_sizes/font_size = 48
+text = "+"
 
-[node name="GenerateRM415Btn" type="Button" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer/ActionsSection/MarginContainer/VBox"]
+[node name="DeliveryDateLabel" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Delivery Date:"
+
+[node name="DeliveryDateHBox" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="DeliveryDateDecBtn" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/DeliveryDateHBox"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 90)
 layout_mode = 2
-custom_minimum_size = Vector2(0, 120)
-theme_override_font_sizes/font_size = 36
-text = "📄 Generate RM415"
+theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 48
+text = "-"
 
-[node name="Spacer" type="Control" parent="VBoxContainer/TabContainer/Wrapping/VBoxContainer"]
-custom_minimum_size = Vector2(0, 60)
-layout_mode = 2
-
-[node name="Defect Tracking" type="ScrollContainer" parent="VBoxContainer/TabContainer"]
-visible = false
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Defect Tracking"]
+[node name="DeliveryDateDisplay" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/DeliveryDateHBox"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/separation = 30
+theme_override_font_sizes/font_size = 48
+text = "23/11/25"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="CountersSection" type="PanelContainer" parent="VBoxContainer/TabContainer/Defect Tracking/VBoxContainer"]
+[node name="DeliveryDateIncBtn" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/DeliveryDateHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 90)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 1, 0.3, 1)
+theme_override_font_sizes/font_size = 48
+text = "+"
+
+[node name="HSeparator4" type="HSeparator" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/Defect Tracking/VBoxContainer/CountersSection"]
+[node name="ActionButtonsHBox" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 30
-theme_override_constants/margin_right = 40
-theme_override_constants/margin_bottom = 30
+theme_override_constants/separation = 15
 
-[node name="VBox" type="VBoxContainer" parent="VBoxContainer/TabContainer/Defect Tracking/VBoxContainer/CountersSection/MarginContainer"]
+[node name="StartWrappingBtn" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/ActionButtonsHBox"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 20
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 90)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_normal_color = Color(0.2, 0.8, 0.2, 1)
+theme_override_font_sizes/font_size = 32
+text = "Start Wrapping"
 
-[node name="Title" type="Label" parent="VBoxContainer/TabContainer/Defect Tracking/VBoxContainer/CountersSection/MarginContainer/VBox"]
+[node name="TakePictureBtn" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/ActionButtonsHBox"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 40
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 90)
+theme_override_font_sizes/font_size = 32
+text = "▼ Take Picture"
+
+[node name="PauseResumeBtn" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 80)
+theme_override_font_sizes/font_size = 32
+text = "▼ (Pause/Resume)"
+
+[node name="FinishWrappingBtn" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 80)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "Finish Wrapping"
+
+[node name="HSeparator5" type="HSeparator" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="DefectTrackingTitle" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
 text = "✓ Quality Control"
 horizontal_alignment = 1
 
-[node name="HBox" type="HBoxContainer" parent="VBoxContainer/TabContainer/Defect Tracking/VBoxContainer/CountersSection/MarginContainer/VBox"]
+[node name="DefectCountersHBox" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="BadProductLabel" type="Label" parent="VBoxContainer/TabContainer/Defect Tracking/VBoxContainer/CountersSection/MarginContainer/VBox/HBox"]
+[node name="BadProductLabel" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/DefectCountersHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 28
 text = "Bad Product: 0"
 horizontal_alignment = 1
 
-[node name="BadWrapLabel" type="Label" parent="VBoxContainer/TabContainer/Defect Tracking/VBoxContainer/CountersSection/MarginContainer/VBox/HBox"]
+[node name="BadWrapLabel" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/DefectCountersHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 28
 text = "Bad Wrap: 0"
 horizontal_alignment = 1
 
-[node name="DefectsSection" type="PanelContainer" parent="VBoxContainer/TabContainer/Defect Tracking/VBoxContainer"]
+[node name="DefectButtonsHBox" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 15
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/Defect Tracking/VBoxContainer/DefectsSection"]
-layout_mode = 2
-theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 30
-theme_override_constants/margin_right = 40
-theme_override_constants/margin_bottom = 30
-
-[node name="VBox" type="VBoxContainer" parent="VBoxContainer/TabContainer/Defect Tracking/VBoxContainer/DefectsSection/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="Title" type="Label" parent="VBoxContainer/TabContainer/Defect Tracking/VBoxContainer/DefectsSection/MarginContainer/VBox"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "Add Defect"
-horizontal_alignment = 1
-
-[node name="AddBadProductBtn" type="Button" parent="VBoxContainer/TabContainer/Defect Tracking/VBoxContainer/DefectsSection/MarginContainer/VBox"]
+[node name="AddBadProductBtn" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/DefectButtonsHBox"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(0, 140)
-theme_override_font_sizes/font_size = 36
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 100)
+theme_override_font_sizes/font_size = 28
 text = "✗ Bad Product"
 
-[node name="AddBadWrapBtn" type="Button" parent="VBoxContainer/TabContainer/Defect Tracking/VBoxContainer/DefectsSection/MarginContainer/VBox"]
+[node name="AddBadWrapBtn" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/DefectButtonsHBox"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(0, 140)
-theme_override_font_sizes/font_size = 36
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 100)
+theme_override_font_sizes/font_size = 28
 text = "✗ Bad Wrap"
 
-[node name="AddCustomReasonBtn" type="Button" parent="VBoxContainer/TabContainer/Defect Tracking/VBoxContainer/DefectsSection/MarginContainer/VBox"]
+[node name="AddCustomReasonBtn" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(0, 120)
-theme_override_font_sizes/font_size = 32
+custom_minimum_size = Vector2(0, 80)
+theme_override_font_sizes/font_size = 24
 text = "+ Add Custom Reason"
 
-[node name="Spacer" type="Control" parent="VBoxContainer/TabContainer/Defect Tracking/VBoxContainer"]
-custom_minimum_size = Vector2(0, 60)
+[node name="HSeparator6" type="HSeparator" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="GenerateRM415Btn" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 80)
+theme_override_font_sizes/font_size = 28
+text = "📄 Generate RM415"
+
+[node name="Spacer" type="Control" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 
 [node name="NotificationLabel" type="Label" parent="."]
@@ -333,12 +333,39 @@ horizontal_alignment = 1
 vertical_alignment = 1
 visible = false
 
-[node name="OperatorPopup" parent="." instance=ExtResource("2")]
+[node name="AddOperatorPopup" type="Window" parent="."]
 unique_name_in_owner = true
+title = "Add Operator"
+initial_position = 2
+size = Vector2i(400, 600)
 visible = false
 
-[node name="ProductSetupPopup" parent="." instance=ExtResource("3")]
+[node name="ChangeProductPopup" type="Window" parent="."]
 unique_name_in_owner = true
+title = "Change Product"
+initial_position = 2
+size = Vector2i(500, 700)
+visible = false
+
+[node name="ChangeSupplierPopup" type="Window" parent="."]
+unique_name_in_owner = true
+title = "Change Supplier"
+initial_position = 2
+size = Vector2i(400, 600)
+visible = false
+
+[node name="TakePicturePopup" type="Window" parent="."]
+unique_name_in_owner = true
+title = "Take Picture"
+initial_position = 2
+size = Vector2i(400, 500)
+visible = false
+
+[node name="PauseResumePopup" type="Window" parent="."]
+unique_name_in_owner = true
+title = "Pause/Resume"
+initial_position = 2
+size = Vector2i(400, 400)
 visible = false
 
 [node name="RM415Popup" parent="." instance=ExtResource("4")]
