@@ -101,12 +101,12 @@ custom_minimum_size = Vector2(0, 70)
 theme_override_font_sizes/font_size = 24
 placeholder_text = "e.g., Standard punnet, Large punnet"
 
-[node name="BoxesPerCrateLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="PunnetsPerCrateLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Boxes per Crate:"
+text = "Punnets per Crate:"
 
-[node name="BoxesPerCrateInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="PunnetsPerCrateInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(0, 70)

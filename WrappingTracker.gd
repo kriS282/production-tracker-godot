@@ -3,27 +3,27 @@ extends Control
 # Product types with crate/box configurations
 const PRODUCTS = {
 	"433g Cups": {
-		"boxes_per_crate": 12,
+		"punnets_per_crate": 12,
 		"punnets_per_box": 1,
 		"package_type": "cup"
 	},
 	"300g Cups": {
-		"boxes_per_crate": 16,
+		"punnets_per_crate": 16,
 		"punnets_per_box": 1,
 		"package_type": "cup"
 	},
 	"150g Buttons": {
-		"boxes_per_crate": 16,
+		"punnets_per_crate": 16,
 		"punnets_per_box": 1,
 		"package_type": "button"
 	},
 	"250g Flats": {
-		"boxes_per_crate": 6,
+		"punnets_per_crate": 6,
 		"punnets_per_box": 1,
 		"package_type": "flat"
 	},
 	"150g Sliced": {
-		"boxes_per_crate": 8,
+		"punnets_per_crate": 8,
 		"punnets_per_box": 1,
 		"package_type": "sliced",
 		"source_product": "300g Cups",

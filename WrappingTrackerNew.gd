@@ -293,6 +293,50 @@ func check_for_selected_order():
 	# This would be set via a global/autoload if implemented
 	pass
 
+func start_session_from_order(order: Dictionary):
+	"""Start a wrapping session from a selected order"""
+	selected_order = order
+
+	# Set delivery date from order
+	var order_delivery = order.get("delivery_date", "")
+	if not order_delivery.is_empty():
+		# Convert from YYYY-MM-DD to DD/MM/YY format if needed
+		if order_delivery.contains("-"):
+			var parts = order_delivery.split("-")
+			if parts.size() == 3:
+				var year = parts[0].substr(2, 2)  # Get last 2 digits
+				delivery_date = "%s/%s/%s" % [parts[2], parts[1], year]
+		else:
+			delivery_date = order_delivery
+
+	# Handle multi-product orders
+	if order.has("products") and not order.products.is_empty():
+		# For now, let user manually select product from the first product in the order
+		# Could be enhanced to auto-select if product_id matches
+		var first_product_id = order.products[0].product_id
+		var product = DataStore.get_product_by_id(first_product_id)
+		if not product.is_empty():
+			set_product(product)
+	# Handle legacy single-product orders
+	elif order.has("product"):
+		# Try to find matching product by name
+		var products = DataStore.get_all_products()
+		for product in products:
+			if product.name == order.product:
+				set_product(product)
+				break
+
+		# Try to find matching supplier
+		if order.has("supplier"):
+			var suppliers = DataStore.get_all_suppliers()
+			for supplier in suppliers:
+				if supplier.name == order.supplier:
+					selected_supplier = supplier
+					break
+
+	update_ui()
+	show_notification("Order selected: %s" % order.get("customer_name", "Order"))
+
 func _on_select_order_pressed():
 	%OrderSelectPopup.popup_centered()
 
@@ -389,9 +433,9 @@ func populate_quantity_popup():
 		product_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		vbox.add_child(product_label)
 
-		var boxes_per_crate = selected_product.get("boxes_per_crate", 12)
+		var punnets_per_crate = selected_product.get("punnets_per_crate", 12)
 		var info_label = Label.new()
-		info_label.text = "%d punnets per box" % boxes_per_crate
+		info_label.text = "%d punnets per crate" % punnets_per_crate
 		info_label.add_theme_font_size_override("font_size", 20)
 		info_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		vbox.add_child(info_label)
@@ -404,7 +448,7 @@ func populate_quantity_popup():
 	var multiplier_input = SpinBox.new()
 	multiplier_input.min_value = 1
 	multiplier_input.max_value = 1000
-	multiplier_input.value = quantity_multiplier if quantity_multiplier > 0 else selected_product.get("boxes_per_crate", 12)
+	multiplier_input.value = quantity_multiplier if quantity_multiplier > 0 else selected_product.get("punnets_per_crate", 12)
 	multiplier_input.custom_minimum_size = Vector2(0, 60)
 	multiplier_input.add_theme_font_size_override("font_size", 28)
 	vbox.add_child(multiplier_input)
@@ -415,7 +459,7 @@ func populate_quantity_popup():
 	set_btn.add_theme_font_size_override("font_size", 28)
 	set_btn.pressed.connect(func():
 		quantity_multiplier = int(multiplier_input.value)
-		quantity_per_box = selected_product.get("boxes_per_crate", 12)
+		quantity_per_box = selected_product.get("punnets_per_crate", 12)
 		update_ui()
 		%QuantityPopup.hide()
 	)
@@ -592,11 +636,11 @@ func populate_change_product_popup():
 		var barcode_text = ""
 		if product.get("barcode", "") != "":
 			barcode_text = " | " + product.barcode
-		btn.text = "%s - %s\n%s | %d per BOX%s" % [
+		btn.text = "%s - %s\n%s | %d per CRATE%s" % [
 			customer_name,
 			product.name,
 			product.target_weight,
-			product.get("boxes_per_crate", 12),
+			product.get("punnets_per_crate", 12),
 			barcode_text
 		]
 		btn.custom_minimum_size = Vector2(550, 90)
@@ -618,7 +662,7 @@ func populate_change_product_popup():
 
 func set_product(product: Dictionary):
 	selected_product = product
-	quantity_per_box = product.get("boxes_per_crate", 12)
+	quantity_per_box = product.get("punnets_per_crate", 12)
 	update_ui()
 	show_notification("Selected: %s" % product.name)
 

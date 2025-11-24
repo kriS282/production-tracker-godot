@@ -35,7 +35,7 @@ func populate_product(product: Dictionary):
 	%NameInput.text = product.name
 	%TargetWeightInput.text = product.target_weight
 	%PunnetInput.text = product.punnet
-	%BoxesPerCrateInput.text = str(product.boxes_per_crate)
+	%PunnetsPerCrateInput.text = str(product.punnets_per_crate)
 	%PunnetsPerBoxInput.text = str(product.punnets_per_box)
 	%BarcodeInput.text = product.get("barcode", "")
 
@@ -66,7 +66,7 @@ func clear_form():
 	%NameInput.text = ""
 	%TargetWeightInput.text = ""
 	%PunnetInput.text = "Standard punnet"
-	%BoxesPerCrateInput.text = "12"
+	%PunnetsPerCrateInput.text = "12"
 	%PunnetsPerBoxInput.text = "1"
 	%BarcodeInput.text = ""
 
@@ -88,7 +88,7 @@ func _on_save_pressed():
 	var product_name = %NameInput.text.strip_edges()
 	var target_weight = %TargetWeightInput.text.strip_edges()
 	var punnet = %PunnetInput.text.strip_edges()
-	var boxes_per_crate_text = %BoxesPerCrateInput.text.strip_edges()
+	var punnets_per_crate_text = %PunnetsPerCrateInput.text.strip_edges()
 	var punnets_per_box_text = %PunnetsPerBoxInput.text.strip_edges()
 	var barcode = %BarcodeInput.text.strip_edges()
 
@@ -112,9 +112,9 @@ func _on_save_pressed():
 		show_error("Please select a packaging type")
 		return
 
-	var boxes_per_crate = boxes_per_crate_text.to_int()
-	if boxes_per_crate <= 0:
-		show_error("Boxes per crate must be a positive number")
+	var punnets_per_crate = punnets_per_crate_text.to_int()
+	if punnets_per_crate <= 0:
+		show_error("Punnets per crate must be a positive number")
 		return
 
 	var punnets_per_box = punnets_per_box_text.to_int()
@@ -133,7 +133,7 @@ func _on_save_pressed():
 		"target_weight": target_weight,
 		"punnet": punnet,
 		"packaging_type": packaging_type,
-		"boxes_per_crate": boxes_per_crate,
+		"punnets_per_crate": punnets_per_crate,
 		"punnets_per_box": punnets_per_box,
 		"barcode": barcode
 	}
