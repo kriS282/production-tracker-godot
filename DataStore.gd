@@ -15,6 +15,8 @@ var data = {
 	"quality_defects": [],
 	"rm415_forms": [],
 	"current_user": null,
+	"operators": [],  # Manual operators that may not have user accounts yet
+	"product_types": [],  # Product classifications with customer assignments
 	"defect_reasons": {
 		"bad_product": [
 			"Bruised",
@@ -32,7 +34,15 @@ var data = {
 			"Incorrect Weight",
 			"Missing Label"
 		]
-	}
+	},
+	"pause_reasons": [
+		"Break",
+		"Lunch",
+		"Bathroom",
+		"Equipment Issue",
+		"No Stock",
+		"Cleaning"
+	]
 }
 
 func _ready():
@@ -41,6 +51,7 @@ func _ready():
 	create_default_customers()
 	create_default_products()
 	create_default_suppliers()
+	create_default_product_types()
 
 func load_data():
 	if FileAccess.file_exists(data_path):
@@ -336,8 +347,9 @@ func create_default_products():
 			"packaging_type": "crates",
 			"boxes_per_crate": 12,
 			"punnets_per_box": 1,
-			"barcode": "",
-			"pn": ""
+			"barcode": "2078 1675",
+			"pn": "",
+			"product_classification": "Lidl"
 		},
 		{
 			"id": 2,
@@ -349,8 +361,9 @@ func create_default_products():
 			"packaging_type": "crates",
 			"boxes_per_crate": 16,
 			"punnets_per_box": 1,
-			"barcode": "",
-			"pn": ""
+			"barcode": "2054 0586",
+			"pn": "",
+			"product_classification": "Lidl"
 		},
 		{
 			"id": 3,
@@ -362,8 +375,9 @@ func create_default_products():
 			"packaging_type": "crates",
 			"boxes_per_crate": 16,
 			"punnets_per_box": 1,
-			"barcode": "",
-			"pn": ""
+			"barcode": "2064 9562",
+			"pn": "",
+			"product_classification": "Lidl"
 		},
 		{
 			"id": 4,
@@ -375,8 +389,9 @@ func create_default_products():
 			"packaging_type": "crates",
 			"boxes_per_crate": 6,
 			"punnets_per_box": 1,
-			"barcode": "",
-			"pn": ""
+			"barcode": "2016 6632",
+			"pn": "",
+			"product_classification": "Lidl"
 		},
 		{
 			"id": 5,
@@ -388,12 +403,41 @@ func create_default_products():
 			"packaging_type": "crates",
 			"boxes_per_crate": 8,
 			"punnets_per_box": 1,
-			"barcode": "",
-			"pn": ""
+			"barcode": "4056 4890",
+			"pn": "",
+			"product_classification": "Lidl"
+		},
+		{
+			"id": 6,
+			"name": "250g Chestnut",
+			"customer_id": 1,
+			"product_type": "chestnut",
+			"target_weight": "250g",
+			"punnet": "Standard punnet",
+			"packaging_type": "crates",
+			"boxes_per_crate": 6,
+			"punnets_per_box": 1,
+			"barcode": "2016 6625",
+			"pn": "",
+			"product_classification": "Lidl"
+		},
+		{
+			"id": 7,
+			"name": "150g Wild Mix",
+			"customer_id": 1,
+			"product_type": "wild_mix",
+			"target_weight": "150g",
+			"punnet": "Standard punnet",
+			"packaging_type": "crates",
+			"boxes_per_crate": 16,
+			"punnets_per_box": 1,
+			"barcode": "2008 9283",
+			"pn": "",
+			"product_classification": "Lidl"
 		},
 		# Dublin products - chips (stacked trays)
 		{
-			"id": 6,
+			"id": 8,
 			"name": "2.27kg/5lb Cups",
 			"customer_id": 2,
 			"product_type": "cups",
@@ -403,10 +447,11 @@ func create_default_products():
 			"boxes_per_crate": 8,
 			"punnets_per_box": 1,
 			"barcode": "",
-			"pn": ""
+			"pn": "",
+			"product_classification": "Dublin"
 		},
 		{
-			"id": 7,
+			"id": 9,
 			"name": "1.8kg/4lb Flats",
 			"customer_id": 2,
 			"product_type": "flats",
@@ -416,7 +461,8 @@ func create_default_products():
 			"boxes_per_crate": 8,
 			"punnets_per_box": 1,
 			"barcode": "",
-			"pn": ""
+			"pn": "",
+			"product_classification": "Dublin"
 		}
 	]
 
@@ -515,3 +561,119 @@ func delete_supplier(supplier_id: int) -> bool:
 			save_data()
 			return true
 	return false
+
+# Operators (manual, not linked to users)
+func create_operator(operator_name: String) -> int:
+	var operator_id = data.operators.size() + 1
+	var operator = {
+		"id": operator_id,
+		"name": operator_name,
+		"linked_user_id": null,  # Can be connected to a user account later
+		"created_at": Time.get_datetime_string_from_system()
+	}
+	data.operators.append(operator)
+	save_data()
+	return operator_id
+
+func get_all_operators() -> Array:
+	return data.operators
+
+func get_operator_by_id(operator_id: int) -> Dictionary:
+	for operator in data.operators:
+		if operator.id == operator_id:
+			return operator
+	return {}
+
+func link_operator_to_user(operator_id: int, user_id: int) -> bool:
+	for i in range(data.operators.size()):
+		if data.operators[i].id == operator_id:
+			data.operators[i].linked_user_id = user_id
+			save_data()
+			return true
+	return false
+
+func unlink_operator_from_user(operator_id: int) -> bool:
+	for i in range(data.operators.size()):
+		if data.operators[i].id == operator_id:
+			data.operators[i].linked_user_id = null
+			save_data()
+			return true
+	return false
+
+func delete_operator(operator_id: int) -> bool:
+	for i in range(data.operators.size()):
+		if data.operators[i].id == operator_id:
+			data.operators.remove_at(i)
+			save_data()
+			return true
+	return false
+
+# Product Types
+func create_default_product_types():
+	if not data.product_types.is_empty():
+		return
+
+	var default_types = [
+		{
+			"id": 1,
+			"name": "Lidl Product",
+			"customer_ids": [1]  # Lidl
+		},
+		{
+			"id": 2,
+			"name": "Dublin Product",
+			"customer_ids": [2]  # Dublin
+		},
+		{
+			"id": 3,
+			"name": "Other Product",
+			"customer_ids": [3]  # Production
+		}
+	]
+
+	data.product_types = default_types
+	save_data()
+
+func create_product_type(type_name: String, customer_ids: Array) -> int:
+	var type_id = data.product_types.size() + 1
+	var product_type = {
+		"id": type_id,
+		"name": type_name,
+		"customer_ids": customer_ids
+	}
+	data.product_types.append(product_type)
+	save_data()
+	return type_id
+
+func get_all_product_types() -> Array:
+	return data.product_types
+
+func update_product_type(type_id: int, updates: Dictionary) -> bool:
+	for i in range(data.product_types.size()):
+		if data.product_types[i].id == type_id:
+			for key in updates:
+				data.product_types[i][key] = updates[key]
+			save_data()
+			return true
+	return false
+
+func delete_product_type(type_id: int) -> bool:
+	for i in range(data.product_types.size()):
+		if data.product_types[i].id == type_id:
+			data.product_types.remove_at(i)
+			save_data()
+			return true
+	return false
+
+# Pause Reasons
+func add_pause_reason(reason: String):
+	if not reason in data.pause_reasons:
+		data.pause_reasons.append(reason)
+		save_data()
+
+func get_pause_reasons() -> Array:
+	return data.pause_reasons
+
+func remove_pause_reason(reason: String):
+	data.pause_reasons.erase(reason)
+	save_data()

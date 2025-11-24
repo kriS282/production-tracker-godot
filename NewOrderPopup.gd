@@ -6,8 +6,6 @@ var selected_products = []  # Array of {product_id, product_name, quantity}
 
 @onready var customer_dropdown = %CustomerDropdown
 @onready var delivery_input = %DeliveryInput
-@onready var harvest_input = %HarvestInput
-@onready var batch_input = %BatchInput
 @onready var products_list = %ProductsList
 
 func _ready():
@@ -15,8 +13,6 @@ func _ready():
 
 	# Set defaults
 	delivery_input.text = get_tomorrow_date()
-	harvest_input.text = Time.get_date_string_from_system()
-	batch_input.text = generate_batch_code()
 
 	%AddProductBtn.pressed.connect(_on_add_product_pressed)
 	%CreateBtn.pressed.connect(_on_create_pressed)
@@ -35,13 +31,6 @@ func get_tomorrow_date() -> String:
 	var time = Time.get_unix_time_from_system() + 86400  # +1 day
 	var date_dict = Time.get_datetime_dict_from_unix_time(int(time))
 	return "%04d-%02d-%02d" % [date_dict.year, date_dict.month, date_dict.day]
-
-func generate_batch_code() -> String:
-	var date_dict = Time.get_datetime_dict_from_system()
-	var week = date_dict.get("week", 1)
-	var weekday = date_dict.get("weekday", 1)
-	var dispatch_weekday = (weekday % 7) + 1
-	return "L%02d%02d" % [week, dispatch_weekday]
 
 func _on_add_product_pressed():
 	if customer_dropdown.selected < 0:
@@ -131,10 +120,6 @@ func _on_create_pressed():
 		show_error("Please enter delivery date")
 		return
 
-	if harvest_input.text.is_empty():
-		show_error("Please enter harvest date")
-		return
-
 	var customer_id = customer_dropdown.get_item_id(customer_dropdown.selected)
 	var customer_name = customer_dropdown.get_item_text(customer_dropdown.selected)
 
@@ -142,8 +127,6 @@ func _on_create_pressed():
 		"customer_id": customer_id,
 		"customer_name": customer_name,
 		"delivery_date": delivery_input.text,
-		"harvest_date": harvest_input.text,
-		"batch_code": batch_input.text,
 		"products": selected_products.duplicate(true)
 	}
 
@@ -160,8 +143,6 @@ func reset_form():
 
 	populate_customer_dropdown()
 	delivery_input.text = get_tomorrow_date()
-	harvest_input.text = Time.get_date_string_from_system()
-	batch_input.text = generate_batch_code()
 
 	%ErrorLabel.hide()
 

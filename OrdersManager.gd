@@ -58,12 +58,6 @@ func create_order_panel(order: Dictionary) -> PanelContainer:
 	delivery.add_theme_font_size_override("font_size", 20)
 	vbox.add_child(delivery)
 
-	if order.has("harvest_date"):
-		var harvest = Label.new()
-		harvest.text = "Harvest: %s | Batch: %s" % [order.harvest_date, order.get("batch_code", "N/A")]
-		harvest.add_theme_font_size_override("font_size", 18)
-		vbox.add_child(harvest)
-
 	# Display products
 	if order.has("products") and not order.products.is_empty():
 		var products_label = Label.new()
