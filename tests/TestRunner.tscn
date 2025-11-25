@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://testrunner"]
+
+[ext_resource type="PackedScene" uid="uid://bq4n1qtmvf7hv" path="res://addons/gut/GutScene.tscn" id="1"]
+
+[node name="TestRunner" instance=ExtResource("1")]
+
+[node name="Gut" parent="." index="0"]
+_dirs_to_test = ["res://tests/unit", "res://tests/integration"]
+_log_level = 1
