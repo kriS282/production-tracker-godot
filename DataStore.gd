@@ -677,3 +677,99 @@ func get_pause_reasons() -> Array:
 func remove_pause_reason(reason: String):
 	data.pause_reasons.erase(reason)
 	save_data()
+
+# Batch code utilities
+func generate_batch_code_for_date(date_str: String = "") -> String:
+	"""Generate batch code in LWWdd format (L + Week + Weekday)
+	Example: L4803 = Week 48, Day 3 (Wednesday)
+	If date_str is empty, uses current system time"""
+	var date_dict: Dictionary
+
+	if date_str.is_empty():
+		date_dict = Time.get_datetime_dict_from_system()
+	else:
+		# Parse date string (supports DD/MM/YY and YYYY-MM-DD formats)
+		date_dict = parse_date_string(date_str)
+		if date_dict.is_empty():
+			push_error("Invalid date string: %s" % date_str)
+			return ""
+
+	var week = date_dict.get("week", 1)
+	var weekday = date_dict.get("weekday", 1)
+	return "L%02d%02d" % [week, weekday]
+
+func validate_batch_code_for_date(batch_code: String, delivery_date_str: String) -> Dictionary:
+	"""Validate that batch code matches delivery date
+	Returns: {valid: bool, message: String, expected_code: String}"""
+
+	if batch_code.is_empty():
+		return {"valid": false, "message": "Batch code is empty", "expected_code": ""}
+
+	if delivery_date_str.is_empty():
+		return {"valid": false, "message": "Delivery date is empty", "expected_code": ""}
+
+	# Generate expected batch code from delivery date
+	var expected_code = generate_batch_code_for_date(delivery_date_str)
+	if expected_code.is_empty():
+		return {"valid": false, "message": "Invalid delivery date format", "expected_code": ""}
+
+	# Compare codes
+	if batch_code != expected_code:
+		var date_dict = parse_date_string(delivery_date_str)
+		var date_str = "%02d/%02d/%02d" % [date_dict.day, date_dict.month, date_dict.year % 100]
+		return {
+			"valid": false,
+			"message": "Batch code mismatch!\nDelivery date: %s\nExpected: %s\nGot: %s" % [date_str, expected_code, batch_code],
+			"expected_code": expected_code
+		}
+
+	return {"valid": true, "message": "Batch code matches delivery date", "expected_code": expected_code}
+
+func parse_date_string(date_str: String) -> Dictionary:
+	"""Parse date string in DD/MM/YY or YYYY-MM-DD format"""
+	if date_str.is_empty():
+		return {}
+
+	var parts: Array
+	var day: int
+	var month: int
+	var year: int
+
+	if date_str.contains("/"):
+		# DD/MM/YY format
+		parts = date_str.split("/")
+		if parts.size() != 3:
+			return {}
+		day = parts[0].to_int()
+		month = parts[1].to_int()
+		year = parts[2].to_int()
+		if year < 100:
+			year += 2000  # Assume 20xx
+	elif date_str.contains("-"):
+		# YYYY-MM-DD format
+		parts = date_str.split("-")
+		if parts.size() != 3:
+			return {}
+		year = parts[0].to_int()
+		month = parts[1].to_int()
+		day = parts[2].to_int()
+	else:
+		return {}
+
+	# Validate ranges
+	if day < 1 or day > 31 or month < 1 or month > 12 or year < 2000:
+		return {}
+
+	# Create datetime dict and let Godot calculate week and weekday
+	var date_dict = {
+		"year": year,
+		"month": month,
+		"day": day,
+		"hour": 12,
+		"minute": 0,
+		"second": 0
+	}
+
+	# Get unix time to calculate week and weekday properly
+	var unix_time = Time.get_unix_time_from_datetime_dict(date_dict)
+	return Time.get_datetime_dict_from_unix_time(unix_time)

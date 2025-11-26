@@ -39,11 +39,11 @@ func get_tomorrow_date() -> String:
 	return "%04d-%02d-%02d" % [date_dict.year, date_dict.month, date_dict.day]
 
 func generate_batch_code() -> String:
-	var date_dict = Time.get_datetime_dict_from_system()
-	var week = date_dict.get("week", 1)
-	var weekday = date_dict.get("weekday", 1)
-	var dispatch_weekday = (weekday % 7) + 1
-	return "L%02d%02d" % [week, dispatch_weekday]
+	"""Generate batch code for delivery date"""
+	if delivery_input and not delivery_input.text.is_empty():
+		return DataStore.generate_batch_code_for_date(delivery_input.text)
+	else:
+		return DataStore.generate_batch_code_for_date("")
 
 func _on_start_pressed():
 	if product_dropdown.selected < 0 or supplier_dropdown.selected < 0:
@@ -53,6 +53,12 @@ func _on_start_pressed():
 	if quantity_input.text.is_empty():
 		show_error("Please enter quantity")
 		return
+
+	# Validate batch code against delivery date
+	var validation = DataStore.validate_batch_code_for_date(batch_input.text, delivery_input.text)
+	if not validation.valid:
+		show_error(validation.message + "\nUsing expected: " + validation.expected_code)
+		batch_input.text = validation.expected_code
 
 	var data = {
 		"product": products[product_dropdown.selected],

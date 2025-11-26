@@ -161,6 +161,8 @@ func update_ui():
 	%BadWrapLabel.text = "Bad Wrap: %d" % bad_wrap_count
 
 	# Update batch code display
+	# Batch code format: LWWdd (L + Week Number + Day of Week)
+	# Example: L4803 = Week 48, Wednesday (day 3)
 	if batch_code.is_empty():
 		%BatchCodeLabel.text = "Batch: (Auto-generated on start)"
 	else:
@@ -767,6 +769,9 @@ func adjust_date(date_type: String, days: int):
 		pick_date = new_date_str
 	else:
 		delivery_date = new_date_str
+		# Auto-regenerate batch code when delivery date changes (before session starts)
+		if not session_active and batch_code.is_empty():
+			batch_code = generate_batch_code()
 
 	update_ui()
 
@@ -777,6 +782,14 @@ func _on_start_wrapping_pressed():
 
 	# Generate batch code
 	batch_code = generate_batch_code()
+
+	# Validate batch code against delivery date
+	var validation = DataStore.validate_batch_code_for_date(batch_code, delivery_date)
+	if not validation.valid:
+		show_notification(validation.message)
+		# Optionally auto-correct the batch code
+		batch_code = validation.expected_code
+		show_notification("Batch code corrected to: %s" % batch_code)
 
 	# Build operator names list
 	var operator_names = []
@@ -802,7 +815,7 @@ func _on_start_wrapping_pressed():
 	session_paused = false
 
 	update_ui()
-	show_notification("Wrapping session started!")
+	show_notification("Wrapping session started! Batch: %s" % batch_code)
 
 func _on_take_picture_pressed():
 	populate_take_picture_popup()
@@ -1024,11 +1037,12 @@ func reset_session():
 	update_ui()
 
 func generate_batch_code() -> String:
-	var date_dict = Time.get_datetime_dict_from_system()
-	var week = date_dict.get("week", 1)
-	var weekday = date_dict.get("weekday", 1)
-	var dispatch_weekday = (weekday % 7) + 1
-	return "L%02d%02d" % [week, dispatch_weekday]
+	"""Generate batch code for delivery date in LWWdd format
+	Uses delivery_date field to generate correct code"""
+	if not delivery_date.is_empty():
+		return DataStore.generate_batch_code_for_date(delivery_date)
+	else:
+		return DataStore.generate_batch_code_for_date("")
 
 func _on_add_bad_product_pressed():
 	var reasons = DataStore.get_defect_reasons("bad_product")

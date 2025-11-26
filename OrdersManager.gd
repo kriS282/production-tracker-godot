@@ -54,7 +54,9 @@ func create_order_panel(order: Dictionary) -> PanelContainer:
 	vbox.add_child(title)
 
 	var delivery = Label.new()
-	delivery.text = "Delivery: %s | Status: %s" % [order.delivery_date, order.status.capitalize()]
+	var batch_code = DataStore.generate_batch_code_for_date(order.delivery_date)
+	var batch_text = " | Batch: %s" % batch_code if not batch_code.is_empty() else ""
+	delivery.text = "Delivery: %s | Status: %s%s" % [order.delivery_date, order.status.capitalize(), batch_text]
 	delivery.add_theme_font_size_override("font_size", 20)
 	vbox.add_child(delivery)
 
